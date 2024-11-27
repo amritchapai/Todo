@@ -10,7 +10,7 @@ const taskSchema = new mongoose_1.default.Schema({
     title: { type: String, default: "" },
     description: { type: String, required: true },
     deadline: { type: Date, default: null },
-    category: { type: String, enum: ["Work", "Personal"] },
+    category: { type: String, enum: ["Work", "Personal"], default: "Personal" },
     completed: { type: Boolean, default: false },
 });
 //make model

@@ -89,7 +89,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
     const payload: IPayload = {
       id: loginUser._id as mongoose.Types.ObjectId,
     };
-    const token:string = jwt.sign(payload, envVariables.secretKey, {
+    const token = jwt.sign(payload, envVariables.secretKey, {
       expiresIn: "1d",
     });
 
@@ -101,8 +101,6 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
         })
       )
     ).filter((task) => task !== null);
-
-
 
     const passUser: IPassUser = {
       name: loginUser.name,
