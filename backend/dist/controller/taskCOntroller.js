@@ -13,6 +13,7 @@ exports.addPost = addPost;
 function addPost(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const ownerId = req.id;
         }
         catch (error) {
             console.log("error");
