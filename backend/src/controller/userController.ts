@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import envVariables from "../config/env";
+import { IPassUser, IPayload } from "../types/types";
 
 //to register user
 export async function addUser(req: Request, res: Response): Promise<void> {
@@ -41,6 +42,10 @@ export async function addUser(req: Request, res: Response): Promise<void> {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      message: "Registration failed",
+      success: false,
+    });
   }
 }
 
@@ -81,9 +86,6 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       });
       return;
     }
-    interface IPayload {
-      id: mongoose.Types.ObjectId;
-    }
     const payload: IPayload = {
       id: loginUser._id as mongoose.Types.ObjectId,
     };
@@ -100,11 +102,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       )
     ).filter((task) => task !== null);
 
-    interface IPassUser {
-      name: string;
-      email: string;
-      tasks: ITask[];
-    }
+
 
     const passUser: IPassUser = {
       name: loginUser.name,
@@ -123,5 +121,27 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
         success: true,
         passUser,
       });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: "Log in failed",
+      success: false,
+    });
+  }
+}
+
+export async function logoutUser (req: Request, res: Response): Promise<void>{
+  try {
+    res.cookie("token", "", {maxAge:0}).json({
+      message: "Logout successful",
+      success: true
+    })
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Logout failed",
+      success: false,
+    });
+  }
 }

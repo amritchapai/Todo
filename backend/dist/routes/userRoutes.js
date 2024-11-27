@@ -8,4 +8,5 @@ const userController_1 = require("../controller/userController");
 const route = express_1.default.Router();
 route.post("/signup", userController_1.addUser);
 route.post("/login", userController_1.loginUser);
+route.post("/logout", userController_1.logoutUser);
 exports.default = route;

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addUser = addUser;
 exports.loginUser = loginUser;
+exports.logoutUser = logoutUser;
 const taskModel_1 = __importDefault(require("./../model/taskModel"));
 const userModel_1 = __importDefault(require("../model/userModel"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -48,6 +49,10 @@ function addUser(req, res) {
         }
         catch (error) {
             console.log(error);
+            res.status(500).json({
+                message: "Registration failed",
+                success: false,
+            });
         }
     });
 }
@@ -106,6 +111,30 @@ function loginUser(req, res) {
                 passUser,
             });
         }
-        catch (error) { }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Log in failed",
+                success: false,
+            });
+        }
+    });
+}
+function logoutUser(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            res.cookie("token", "", { maxAge: 0 }).json({
+                message: "Logout successful",
+                success: true
+            });
+            return;
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Logout failed",
+                success: false,
+            });
+        }
     });
 }
