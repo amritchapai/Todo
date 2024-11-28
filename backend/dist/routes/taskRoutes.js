@@ -8,4 +8,7 @@ const authentication_1 = __importDefault(require("../middleware/authentication")
 const taskController_1 = require("../controller/taskController");
 const router = express_1.default.Router();
 router.post("/addtask", authentication_1.default, taskController_1.addTask);
+router.post("/edittask/:id", authentication_1.default, taskController_1.editTask);
+router.post("/markcomplete/:id", authentication_1.default, taskController_1.markCompleteTask),
+    router.post("/deletetask/:id", authentication_1.default, taskController_1.deleteTask);
 exports.default = router;

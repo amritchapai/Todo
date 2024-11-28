@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addTask = addTask;
 exports.editTask = editTask;
+exports.deleteTask = deleteTask;
+exports.markCompleteTask = markCompleteTask;
 const mongoose_1 = __importDefault(require("mongoose"));
 const taskModel_1 = __importDefault(require("../model/taskModel"));
 const userModel_1 = __importDefault(require("../model/userModel"));
@@ -63,6 +65,7 @@ function addTask(req, res) {
         }
     });
 }
+//to edit task
 function editTask(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -102,6 +105,63 @@ function editTask(req, res) {
                     message: "Server side error",
                     success: false,
                 });
+        }
+    });
+}
+//to delete task
+function deleteTask(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const taskId = new mongoose_1.default.Types.ObjectId(req.params.id);
+            const taskToDelete = yield taskModel_1.default.findByIdAndDelete(taskId);
+            if (!taskToDelete) {
+                res.status(404).json({
+                    message: "Task not found",
+                    status: false,
+                });
+            }
+            res.status(202).json({
+                message: "Task deleted",
+                status: true,
+            });
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Server side error",
+                success: false,
+            });
+        }
+    });
+}
+function markCompleteTask(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const taskId = new mongoose_1.default.Types.ObjectId(req.params.id);
+            const taskToMark = yield taskModel_1.default.findByIdAndUpdate(taskId, {
+                $set: {
+                    deadline: "",
+                    completed: true,
+                }
+            }, { new: true });
+            if (!taskToMark) {
+                res.status(404).json({
+                    message: "Task not found",
+                    status: false,
+                });
+                return;
+            }
+            res.status(202).json({
+                message: "Marked Complete",
+                status: true,
+            });
+        }
+        catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Server side error",
+                success: false,
+            });
         }
     });
 }

@@ -57,6 +57,7 @@ export async function addTask(req: Request, res: Response): Promise<void> {
   }
 }
 
+//to edit task
 export async function editTask(req: Request, res: Response): Promise<void> {
   try {
     const taskId = new mongoose.Types.ObjectId(req.params.id);
@@ -95,5 +96,61 @@ export async function editTask(req: Request, res: Response): Promise<void> {
         message: "Server side error",
         success: false,
       });
+  }
+}
+
+//to delete task
+export async function deleteTask(req: Request, res: Response): Promise<void> {
+  try {
+    const taskId = new mongoose.Types.ObjectId(req.params.id);
+    const taskToDelete: ITask | null = await Task.findByIdAndDelete(taskId);
+    if (!taskToDelete) {
+      res.status(404).json({
+        message: "Task not found",
+        status: false,
+      });
+    }
+    res.status(202).json({
+      message: "Task deleted",
+      status: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server side error",
+      success: false,
+    });
+  }
+}
+
+export async function markCompleteTask(
+  req: Request,
+  res: Response
+): Promise<void> {
+  try {
+    const taskId = new mongoose.Types.ObjectId(req.params.id);
+    const taskToMark: ITask | null = await Task.findByIdAndUpdate(taskId, {
+      $set:{
+        deadline: "",
+        completed: true,
+      }
+    },{new: true});
+    if (!taskToMark) {
+      res.status(404).json({
+        message: "Task not found",
+        status: false,
+      });
+      return;
+    }
+    res.status(202).json({
+      message: "Marked Complete",
+      status: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server side error",
+      success: false,
+    });
   }
 }
