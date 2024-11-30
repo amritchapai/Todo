@@ -71,3 +71,7 @@ html, body {
     padding: 0;
     font-size: 16px;
 }
+
+:root {
+  font-family: 'Parkinsans', sans-serif;
+}

@@ -1,4 +1,30 @@
 .button{
-    background-color: #007BFF;
+    background-color: rgb(172, 148, 148);
     border-radius: 1 rem;
+    width: fit-content;
+    place-self: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 0.8rem;
+    padding-top: 0.8rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+@keyframes toggle{
+    0%{
+        background-color: rgb(172, 148, 148);
+    }
+    50%{
+        background-color: rgb(126, 123, 123);
+    }
+     100%{
+        background-color: rgb(172, 148, 148);
+    }
+}
+
+.button:hover{
+    animation: toggle 1s infinite;
 }

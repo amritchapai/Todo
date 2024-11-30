@@ -1,0 +1,14 @@
+.category-card{
+    display: flex;
+    width: 100%;
+    height: 45px;
+    font-size: 18px;
+    align-items: center;
+    justify-content:center;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+
+.category-color{
+    background-color: #f8c46a;
+}

@@ -9,7 +9,7 @@ interface buttonProps{
 
 const Button:React.FC<buttonProps>= (props)=> {
   return (
-        <button className={`${props.className}`} onClick={props.handler}>{props.text}</button>
+        <button className={`button ${props.className}`} onClick={props.handler}>{props.text}</button>
   )
 }
 
