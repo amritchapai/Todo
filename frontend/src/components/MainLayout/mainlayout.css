@@ -1,0 +1,22 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Wrapper for sidebar and main content */
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  margin-top: 60px; /* Adjust to match Navbar's height */
+}
+
+/* Main content (right side of sidebar) */
+.main-content {
+  flex: 1; /* Takes up remaining space */
+  padding: 20px;
+  margin-left: 20%;
+  overflow-y: auto;
+  background-color: #f4f4f4; /* Optional: Light background */
+}
