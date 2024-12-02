@@ -35,6 +35,44 @@
     font: lighter;
 }
 
-.link-edit{
-    color: rgb(121, 119, 119);
+
+.detail-header-inner{
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 2px;
+}
+
+.vertical-dots{
+     display: flex;
+     position: relative;
+}
+
+.detail-options{
+     position: absolute;
+     display: flex;
+     flex-direction: column;
+     gap: 5px;
+     background-color: rgba(138, 136, 136, 0.9);
+     padding: 10px;
+     width: 100px;
+     z-index: 200;
+     border-radius: 8px;
+     right: 0;
+}
+.detail-edit-div{
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     gap:4px;
+     font-size: 18px;
+}
+
+.detail-delete-div{
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     gap:4px;
+     color:red;
+     font-size: 18px;
 }

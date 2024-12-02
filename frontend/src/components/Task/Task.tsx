@@ -47,7 +47,7 @@ const Task: React.FC<taskProps> = ({ color }) => {
     <div className={`task-container ${color}`} onClick={taskClickHandler}>
       <div className="task-header">
         <div className="task-header-inner">
-          <span> title</span>
+          <span> Lorem, ipsum dolor.</span>
           <div className="vertical-dots">
             <div onClick={functionOpenOption}>
               <BsThreeDotsVertical size={18} />

@@ -6,6 +6,8 @@ import AllPage from "./pages/AllPage";
 import MainLayout from "./components/MainLayout/MainLayout";
 import TaskDetail from "./pages/TaskDetail"
 import AddTask from "./pages/AddTask";
+import CategoryPage from "./pages/CategoryPage";
+import EditTask from "./pages/EditTask";
 
 const App: React.FC = () => {
   return (
@@ -16,7 +18,9 @@ const App: React.FC = () => {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<AllPage />} />
           <Route path="/taskdetail" element={<TaskDetail />} />
-          <Route path = "/addtask" element={<AddTask/>}/>
+          <Route path="/addtask" element={<AddTask />} />
+          <Route path="/category/:categoryname" element={<CategoryPage />} />
+          <Route path="/edittask/:tasktitle" element={<EditTask />} />
         </Route>
       </Routes>
     </Router>
