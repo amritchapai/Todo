@@ -5,6 +5,7 @@ import Registration from "./pages/Registration";
 import AllPage from "./pages/AllPage";
 import MainLayout from "./components/MainLayout/MainLayout";
 import TaskDetail from "./pages/TaskDetail"
+import AddTask from "./pages/AddTask";
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<AllPage />} />
           <Route path="/taskdetail" element={<TaskDetail />} />
+          <Route path = "/addtask" element={<AddTask/>}/>
         </Route>
       </Routes>
     </Router>

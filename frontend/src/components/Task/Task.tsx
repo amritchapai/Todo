@@ -13,7 +13,11 @@ const Task:React.FC <taskProps> = ({color}) => {
     const navigate = useNavigate();
 
     const taskClickHandler = ():void =>{
-        navigate("/taskdetail")
+        navigate("/taskdetail", {
+          state:{
+            color: color,
+          }
+        })
     }
 
   return (
@@ -22,6 +26,9 @@ const Task:React.FC <taskProps> = ({color}) => {
         <span> title</span>
         <div className="task-inner-header">
           <span className="inner-text">Category</span>
+          <a className="link-edit" href="#">
+            <span>Edit</span>
+          </a>
           <span className="inner-text">Deadline:</span>
           {/* <SiTicktick size={20}/> */}
           <FaRegCircle />

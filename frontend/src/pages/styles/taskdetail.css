@@ -1,0 +1,40 @@
+.detail-container{
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin: 1rem;
+}
+
+.brown{
+     background-color: #b1afa9;
+}
+
+.green{
+     background-color: #B8C0A8;
+}
+
+.gray{
+     background-color: #EDE6DB;
+}
+
+.blue{
+     background-color: #90aed8;
+}
+
+
+.detail-inner-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.inner-text{
+    font-size: 14px;
+    color: rgb(121, 119, 119);
+    font: lighter;
+}
+
+.link-edit{
+    color: rgb(121, 119, 119);
+}

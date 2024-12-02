@@ -7,6 +7,7 @@ export interface ITask extends mongoose.Document{
   deadline: Date | null;
   category: string;
   completed: boolean;
+  priority: string
 }
 
 //make schema
@@ -17,7 +18,8 @@ const taskSchema: Schema<ITask> = new mongoose.Schema<ITask>({
   deadline: { type: Date, default: null },
   category: { type: String, enum: ["Work", "Personal"], default:"Personal" },
   completed:{type: Boolean, default: false},
-});
+  priority: {type: String, enum: ["High", "Medium", "Low"], default:"Low"},
+},{timestamps: true});
 
 //make model
 const Task: Model<ITask> = mongoose.model<ITask>("Task", taskSchema);

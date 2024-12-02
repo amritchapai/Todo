@@ -1,0 +1,59 @@
+.add-task-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+.add-task-title {
+  align-self: center;
+  /* color: #f8c46a; */
+  font: medium;
+  font-size: 2.5rem;
+}
+
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.add-task-input {
+  width: 100%;
+  height: 2rem;
+  border: 1px solid rgb(168, 165, 165);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+form .add-task-input:focus {
+  border-color: #f8c46a;
+  outline-color: #f8c46a;
+}
+
+.description {
+  display: flex;
+  align-items: flex-start;
+  height: 14rem;
+  text-align: left;
+}
+
+.radio {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #ccc;
+  cursor: pointer;
+}
+
+.radio:checked {
+  border-color: #f8c46a;
+  background-color: #f8c46a;
+}
+
+.form-button {
+  align-self: center;
+}
