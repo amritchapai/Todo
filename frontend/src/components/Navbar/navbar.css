@@ -2,12 +2,18 @@
   position: fixed;
   display: flex;
   width: 100vw;
+  z-index: 1000;
   height: 60px;
   background-color: rgb(137, 134, 134);
   flex-direction: row;
   align-items: center;
   padding-left: 16px;
+  padding-right: 20px;
   font-size: 30px;
   color: #f8c46a;
-  z-index: 1000;
+  justify-content: space-between;
+}
+
+.navbar-container > div{
+  padding-right: 30px;
 }
