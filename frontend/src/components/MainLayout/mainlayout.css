@@ -5,18 +5,18 @@
   height: 100vh;
 }
 
-/* Wrapper for sidebar and main content */
 .content-wrapper {
   display: flex;
-  flex: 1;
-  margin-top: 60px; /* Adjust to match Navbar's height */
+  margin-top: 60px; 
+  overflow-x: hidden;
 }
 
-/* Main content (right side of sidebar) */
+
 .main-content {
-  flex: 1; /* Takes up remaining space */
+  display: flex;
+  flex: 1;
   padding: 20px;
   margin-left: 20%;
   overflow-y: auto;
-  background-color: #f4f4f4; /* Optional: Light background */
+  background-color: #f4f4f4; 
 }

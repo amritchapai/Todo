@@ -1,0 +1,37 @@
+.task-container{
+    width: 250px;
+    height: 360px;
+    overflow-y: hidden;
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.brown{
+     background-color: #b1afa9;
+}
+
+.green{
+     background-color: #B8C0A8;
+}
+
+.gray{
+     background-color: #EDE6DB;
+}
+
+.blue{
+     background-color: #90aed8;
+}
+
+
+.task-inner-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.inner-text{
+    font-size: 14px;
+    color: rgb(121, 119, 119);
+    font: lighter;
+}
