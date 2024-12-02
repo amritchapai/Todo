@@ -1,14 +1,48 @@
-import React, { useState } from 'react'
-import Categories from '../Categories/Categories';
-import { IoIosArrowDropdown, IoMdAddCircle } from 'react-icons/io';
-import "./sidebar.css"
+import React, { useEffect, useRef, useState } from "react";
+import Categories from "../Categories/Categories";
+import { IoIosArrowDropdown, IoMdAddCircle } from "react-icons/io";
+import "./sidebar.css";
+import Button from "../Button/Button";
+import { useNavigate } from "react-router-dom";
 
-const Sidebar:React.FC = () => {
-    const [open, setOpen] = useState<boolean>(false);
+const Sidebar: React.FC = () => {
+  const navigate = useNavigate();
+  const mouseClickRef = useRef<HTMLDivElement | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [openAddCategory, setOpenAddCategory] = useState<boolean>(false);
+  const [category,  setCategory] = useState<string>("");
 
-    const toggleOpen = (): void => {
-      setOpen((prev) => !prev);
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (
+        mouseClickRef.current &&
+        !mouseClickRef.current.contains(event.target as Node)
+      ) {
+        setOpenAddCategory(false);
+      }
     };
+    document.addEventListener("mousedown", handleClick);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, []);
+
+  const addCategoryHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    setOpenAddCategory(false);
+    setCategory("");
+    navigate("/");
+    console.log(category);
+  };
+
+  const toggleOpen = (): void => {
+    setOpen((prev) => !prev);
+  };
+
+  const addCategoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategory(e.target.value);
+    console.log(e.target.value);
+  };
   return (
     <div className="sidebar-container">
       <div className="priority cursor" onClick={toggleOpen}>
@@ -27,14 +61,37 @@ const Sidebar:React.FC = () => {
       <div className="categories gap">
         <span>Categories</span>
       </div>
-      {[1, 2, 5, 1, 1, 1, 1, 1].map((index) => (
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
         <Categories key={index} text="Work" color="category-color" />
       ))}
-      <div className="categories add">
+      <div className="categories add" onClick={() => setOpenAddCategory(true)}>
         <IoMdAddCircle size={20} /> <span>Add a new Category</span>
+        {openAddCategory && (
+          <div className="add-category" ref={mouseClickRef}>
+            <div className="add-header">
+              <span>Add category</span>
+            </div>
+            <hr />
+            <div className="add-body">
+              <label>
+                Category name
+                <input
+                  className="add-input"
+                  name="category"
+                  value={category}
+                  onChange={addCategoryChangeHandler}
+                  type="text"
+                />
+              </label>
+            </div>
+            <div className="add-button">
+              <Button text="Add" handler={addCategoryHandler} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default Sidebar
+export default Sidebar;

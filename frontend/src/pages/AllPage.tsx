@@ -7,7 +7,7 @@ import Task from '../components/Task/Task';
 const AllPage:React.FC = () => {
   const colors: string[] = ["gray", "blue", "green", "brown"];
   let colorIndex: number = 0
-  const task = [1, 2, 2,7,7,7,3,2,2,2,22];
+  const task = [1, 2,3,4,5,6,7,8,9,10,22,34];
   return (
     <div className="all-page">
       {

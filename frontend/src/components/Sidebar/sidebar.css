@@ -6,7 +6,8 @@
   width: 20%;
   height: calc(100vh - 60px);
   border-right: 1px solid rgb(62, 62, 62);
-  overflow-y: auto;
+  overflow: visible;
+  z-index:1
 }
 
 .sidebar-container::-webkit-scrollbar {
@@ -48,6 +49,7 @@
   border-bottom: 1px solid black;
 }
 .add {
+  position: relative;
   gap: 2px;
   cursor: pointer;
 }
@@ -55,5 +57,42 @@
 
 .sidebar-container > div {
   flex: 0 0 auto;  
+}
+
+.add-category{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: rgb(234, 232, 232);
+  left: 30px;
+  bottom: 40px;
+  height:fit-content;
+  padding: 8px;
+  border-radius: 1rem;
+  z-index: 1000;
+}
+
+.add-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-body{
+  display: flex;
+  flex-direction: column;
+  gap: 3px
+}
+.add-input{
+  height: 20px;
+  border-radius: 8px;
+  outline: none;
+  border:1px solid gray;
+}
+.add-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 

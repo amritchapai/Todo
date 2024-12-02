@@ -30,7 +30,6 @@
 }
 
 form .add-task-input:focus {
-  border-color: #f8c46a;
   outline-color: #f8c46a;
 }
 
