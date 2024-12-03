@@ -49,7 +49,7 @@ export async function addTask(req: Request, res: Response): Promise<void> {
     res.status(201).json({
       message: "Task added successfully",
       success: true,
-      task,
+      data: task,
     });
   } catch (error) {
     console.log(error);
@@ -81,7 +81,7 @@ export async function editTask(req: Request, res: Response): Promise<void> {
       });
       return;
     }
-    await Task.findByIdAndUpdate(taskId, {
+    const updatedtask = await Task.findByIdAndUpdate(taskId, {
       $set: {
         title: title,
         description: description,
@@ -92,6 +92,7 @@ export async function editTask(req: Request, res: Response): Promise<void> {
     res.status(202).json({
       message: "Update successful",
       success: true,
+      data: updatedtask
     });
   } catch (error) {
     console.log(error),
@@ -152,7 +153,7 @@ export async function markCompleteTask(
 ): Promise<void> {
   try {
     const taskId = new mongoose.Types.ObjectId(req.params.taskid);
-    const taskToMark: ITask | null = await Task.findByIdAndUpdate(
+    const taskMark: ITask | null = await Task.findByIdAndUpdate(
       taskId,
       {
         $set: {
@@ -162,7 +163,7 @@ export async function markCompleteTask(
       },
       { new: true }
     );
-    if (!taskToMark) {
+    if (!taskMark) {
       res.status(404).json({
         message: "Task not found",
         status: false,
@@ -172,6 +173,7 @@ export async function markCompleteTask(
     res.status(202).json({
       message: "Marked Complete",
       status: true,
+      data: taskMark
     });
   } catch (error) {
     console.log(error);
@@ -189,7 +191,7 @@ export async function getAlltasks(req: Request, res: Response):Promise<void>{
     const allTasks: ITask[] = await Task.find({owner: ownerId});
     res.status(200).json({
       message: "all task successful",
-      allTasks: allTasks,
+      data: allTasks,
       success: true
     })
   }catch(error){

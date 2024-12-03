@@ -58,7 +58,7 @@ function addCategory(req, res) {
             res.status(202).json({
                 message: "Category added",
                 success: true,
-                newCategory,
+                data: newCategory,
             });
         }
         catch (error) {

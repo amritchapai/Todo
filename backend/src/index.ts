@@ -4,6 +4,7 @@ import userRouter from "./routes/userRoutes";
 import taskRouter from "./routes/taskRoutes";
 import categoryRouter from "./routes/categoriesRoutes";
 import dbConnect from "./config/db";
+import cors from "cors";
 
 const app = express();
 
@@ -13,6 +14,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/", userRouter);
 app.use("/api/", taskRouter);
 app.use("/api/", categoryRouter);
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true
+  })
+);
 
 //server
 const PORT: number = 8000;

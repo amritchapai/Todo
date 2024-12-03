@@ -47,7 +47,7 @@ export async function addCategory(req: Request, res: Response): Promise<void> {
     res.status(202).json({
       message: "Category added",
       success: true,
-      newCategory,
+      data: newCategory,
     });
   } catch (error) {
     res.status(500).json({

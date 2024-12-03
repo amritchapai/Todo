@@ -54,7 +54,7 @@ function addTask(req, res) {
             res.status(201).json({
                 message: "Task added successfully",
                 success: true,
-                task,
+                data: task,
             });
         }
         catch (error) {
@@ -87,7 +87,7 @@ function editTask(req, res) {
                 });
                 return;
             }
-            yield taskModel_1.default.findByIdAndUpdate(taskId, {
+            const updatedtask = yield taskModel_1.default.findByIdAndUpdate(taskId, {
                 $set: {
                     title: title,
                     description: description,
@@ -98,6 +98,7 @@ function editTask(req, res) {
             res.status(202).json({
                 message: "Update successful",
                 success: true,
+                data: updatedtask
             });
         }
         catch (error) {
@@ -152,13 +153,13 @@ function markCompleteTask(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const taskId = new mongoose_1.default.Types.ObjectId(req.params.taskid);
-            const taskToMark = yield taskModel_1.default.findByIdAndUpdate(taskId, {
+            const taskMark = yield taskModel_1.default.findByIdAndUpdate(taskId, {
                 $set: {
                     deadline: "",
                     completed: true,
                 },
             }, { new: true });
-            if (!taskToMark) {
+            if (!taskMark) {
                 res.status(404).json({
                     message: "Task not found",
                     status: false,
@@ -168,6 +169,7 @@ function markCompleteTask(req, res) {
             res.status(202).json({
                 message: "Marked Complete",
                 status: true,
+                data: taskMark
             });
         }
         catch (error) {
@@ -186,7 +188,7 @@ function getAlltasks(req, res) {
             const allTasks = yield taskModel_1.default.find({ owner: ownerId });
             res.status(200).json({
                 message: "all task successful",
-                allTasks: allTasks,
+                data: allTasks,
                 success: true
             });
         }
