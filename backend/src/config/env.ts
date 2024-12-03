@@ -9,7 +9,7 @@ interface Ivariables {
   secretKey: string
 }
 const envVariables: Ivariables = {
-  port: process.env.PORT ? Number(process.env.PORT) : 8000,
+  port: process.env.PORT ? Number(process.env.PORT) : 8080,
   mongoURI:
     process.env.mongoURI ||
     "mongodb+srv://amrit:amrit123@todo.yb0qe.mongodb.net/?retryWrites=true&w=majority&appName=ToDo",

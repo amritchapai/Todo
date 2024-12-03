@@ -19,7 +19,6 @@ const userModel_1 = __importDefault(require("../model/userModel"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const env_1 = __importDefault(require("../config/env"));
-const categoriesModel_1 = __importDefault(require("../model/categoriesModel"));
 //to register user
 function addUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -90,20 +89,15 @@ function loginUser(req, res) {
             const token = jsonwebtoken_1.default.sign(payload, env_1.default.secretKey, {
                 expiresIn: "1d",
             });
-            const populatedCategories = (yield Promise.all(loginUser.categories.map((categoryId) => __awaiter(this, void 0, void 0, function* () {
-                const task = yield categoriesModel_1.default.findById(categoryId);
-                return task;
-            })))).filter((category) => category !== null);
             const passUser = {
                 name: loginUser.name,
                 email: loginUser.email,
-                categories: populatedCategories,
             };
             res
                 .cookie("token", token, {
                 httpOnly: true,
                 sameSite: "strict",
-                maxAge: Infinity,
+                maxAge: 36000,
             })
                 .json({
                 message: "Login successful",

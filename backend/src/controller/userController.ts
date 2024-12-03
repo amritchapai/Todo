@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import envVariables from "../config/env";
 import { IPassUser, IPayload } from "../types/types";
-import Category, { ICategory } from "../model/categoriesModel";
 
 //to register user
 export async function addUser(req: Request, res: Response): Promise<void> {
@@ -94,26 +93,17 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       expiresIn: "1d",
     });
 
-    const populatedCategories: ICategory[] = (
-      await Promise.all(
-        loginUser.categories.map(async (categoryId: mongoose.Types.ObjectId) => {
-          const task: ICategory | null = await Category.findById(categoryId);
-          return task;
-        })
-      )
-    ).filter((category) => category !== null);
 
     const passUser: IPassUser = {
       name: loginUser.name,
       email: loginUser.email,
-      categories: populatedCategories,
     };
 
     res
       .cookie("token", token, {
         httpOnly: true,
         sameSite: "strict",
-        maxAge: Infinity,
+        maxAge: 36000,
       })
       .json({
         message: "Login successful",

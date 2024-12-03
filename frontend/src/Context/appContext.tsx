@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import ICategory from "../Interfaces/categoryInterface";
 import ITask from "../Interfaces/taskInterface";
 import axios from "axios";
@@ -81,30 +87,32 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     task: [],
     categories: [],
   });
- useEffect(() => {
-   const fetchTask = async () => {
-       const response = await axios.get("http://localhost:8080/api/getalltask", {
-         withCredentials: true,
-       });
-       if (response.data.success) {
-         dispatch({ type: "set_tasks", payload: response.data.data });
-       
-     };
-   };
-   fetchTask();
- }, []);
+  useEffect(() => {
+    const fetchTask = async () => {
+      const response = await axios.get("http://localhost:8080/api/getalltask", {
+        withCredentials: true,
+      });
+      if (response.data.success) {
+        dispatch({ type: "set_tasks", payload: response.data.data });
+      }
+    };
+    fetchTask();
+  }, []);
 
- useEffect(() => {
-   const fetchCategories = async () => {
-       const response = await axios.get("http://localhost:8080/api/getallcategory", {
-         withCredentials: true,
-       });
-       if (response.data.success) {
-         dispatch({ type: "set_category", payload: response.data.data });
-       }
-   };
-   fetchCategories();
- }, []);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await axios.get(
+        "http://localhost:8080/api/getallcategory",
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        dispatch({ type: "set_category", payload: response.data.data });
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const addTask = async (task: Partial<ITask>, categoryId: string) => {
     try {
@@ -129,7 +137,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const editTask = async ( taskId: string, task: Partial<ITask>) => {
+  const editTask = async (taskId: string, task: Partial<ITask>) => {
     try {
       const response = await axios.post(
         `http://localhost:8080/edittask/${taskId}`,
@@ -236,19 +244,27 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
   return (
-    <AppContext.Provider value={{state, addTask, editTask, deleteTask, addCategory, deleteCategory, markTaskCompelete}}>
-        {children}
+    <AppContext.Provider
+      value={{
+        state,
+        addTask,
+        editTask,
+        deleteTask,
+        addCategory,
+        deleteCategory,
+        markTaskCompelete,
+      }}
+    >
+      {children}
     </AppContext.Provider>
   );
 };
 
-
-export const useAppContext = () =>{
-    const context = useContext(AppContext);
-    if(!context){
-        console.log("use context within the provider")
-    }
-    return context;
-}
+export const useAppContext = () => {
+  const context = useContext(AppContext);
+  if (!context) {
+    console.log("use context within the provider");
+  }
+  return context;
+};
