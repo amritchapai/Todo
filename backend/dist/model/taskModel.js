@@ -10,9 +10,10 @@ const taskSchema = new mongoose_1.default.Schema({
     title: { type: String, default: "" },
     description: { type: String, required: true },
     deadline: { type: Date, default: null },
-    category: { type: String, enum: ["Work", "Personal"], default: "Personal" },
+    category: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "Category" },
     completed: { type: Boolean, default: false },
-});
+    priority: { type: String, enum: ["High", "Medium", "Low"], default: "Low" },
+}, { timestamps: true });
 //make model
 const Task = mongoose_1.default.model("Task", taskSchema);
 exports.default = Task;

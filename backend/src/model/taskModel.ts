@@ -5,7 +5,7 @@ export interface ITask extends mongoose.Document{
   title: string;
   description: string;
   deadline: Date | null;
-  category: string;
+  category: mongoose.Types.ObjectId;
   completed: boolean;
   priority: string
 }
@@ -16,7 +16,7 @@ const taskSchema: Schema<ITask> = new mongoose.Schema<ITask>({
   title: { type: String, default: "" },
   description: { type: String, required: true },
   deadline: { type: Date, default: null },
-  category: { type: String, enum: ["Work", "Personal"], default:"Personal" },
+  category: {type: mongoose.Schema.Types.ObjectId, ref:"Category"},
   completed:{type: Boolean, default: false},
   priority: {type: String, enum: ["High", "Medium", "Low"], default:"Low"},
 },{timestamps: true});

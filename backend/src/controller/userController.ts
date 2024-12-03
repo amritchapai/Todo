@@ -1,4 +1,4 @@
-import Task, { ITask } from "./../model/taskModel";
+
 import { Request, Response } from "express";
 import User, { IUser } from "../model/userModel";
 import bcrypt from "bcrypt";
@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import envVariables from "../config/env";
 import { IPassUser, IPayload } from "../types/types";
+import Category, { ICategory } from "../model/categoriesModel";
 
 //to register user
 export async function addUser(req: Request, res: Response): Promise<void> {
@@ -93,26 +94,26 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       expiresIn: "1d",
     });
 
-    const populatedTasks: ITask[] = (
+    const populatedCategories: ICategory[] = (
       await Promise.all(
-        loginUser.tasks.map(async (taskId: mongoose.Types.ObjectId) => {
-          const task: ITask | null = await Task.findById(taskId);
+        loginUser.categories.map(async (categoryId: mongoose.Types.ObjectId) => {
+          const task: ICategory | null = await Category.findById(categoryId);
           return task;
         })
       )
-    ).filter((task) => task !== null);
+    ).filter((category) => category !== null);
 
     const passUser: IPassUser = {
       name: loginUser.name,
       email: loginUser.email,
-      tasks: populatedTasks,
+      categories: populatedCategories,
     };
 
     res
       .cookie("token", token, {
         httpOnly: true,
         sameSite: "strict",
-        maxAge: 3600000,
+        maxAge: Infinity,
       })
       .json({
         message: "Login successful",

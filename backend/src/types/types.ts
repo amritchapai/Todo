@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ITask } from "../model/taskModel";
+import { ICategory } from "../model/categoriesModel";
 
 export interface IPayload {
   id: mongoose.Types.ObjectId;
@@ -8,5 +8,5 @@ export interface IPayload {
 export interface IPassUser {
    name: string;
    email: string;
-   tasks: ITask[];
+   categories: ICategory[];
  }

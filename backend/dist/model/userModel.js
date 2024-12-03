@@ -10,7 +10,7 @@ const userSchema = new mongoose_1.default.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    tasks: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Task" }],
+    categories: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Task" }],
 }, { timestamps: true });
 //making model
 const User = mongoose_1.default.model("User", userSchema);

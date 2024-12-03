@@ -1,21 +1,22 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Task, { ITask } from "../model/taskModel";
-import User, { IUser } from "../model/userModel";
+import Category, { ICategory } from "../model/categoriesModel";
 
 export async function addTask(req: Request, res: Response): Promise<void> {
   try {
     const ownerId: mongoose.Types.ObjectId = req.id;
+    const categoryId = new mongoose.Types.ObjectId(req.params.categoryId);
     const {
       title,
       description,
       deadline,
-      category,
+      priority,
     }: {
       title: string | null;
       description: string;
       deadline: Date | null;
-      category: string | null;
+      priority: string | null;
     } = req.body;
     if (!description) {
       res.status(400).json({
@@ -29,20 +30,22 @@ export async function addTask(req: Request, res: Response): Promise<void> {
       title,
       description,
       deadline,
-      category,
+      priority,
     });
-    const owner: IUser | null = await User.findById(ownerId);
-    if (!owner) {
+    const category: ICategory | null = await Category.findByIdAndUpdate(
+      categoryId,
+      {
+        $push: {
+          tasks: task._id,
+        },
+      }
+    );
+    if (!category) {
       res.status(404).json({
-        message: "User not found",
+        message: "Category doesn't exist",
         success: false,
       });
     }
-    await User.findByIdAndUpdate(ownerId, {
-      $push: {
-        tasks: task._id,
-      },
-    });
     res.status(201).json({
       message: "Task added successfully",
       success: true,
@@ -60,8 +63,8 @@ export async function addTask(req: Request, res: Response): Promise<void> {
 //to edit task
 export async function editTask(req: Request, res: Response): Promise<void> {
   try {
-    const taskId = new mongoose.Types.ObjectId(req.params.id);
-    const { title, description, deadline, category } = req.body;
+    const taskId = new mongoose.Types.ObjectId(req.params.taskid);
+    const { title, description, deadline, priority } = req.body;
 
     if (!description) {
       res.status(400).json({
@@ -83,7 +86,7 @@ export async function editTask(req: Request, res: Response): Promise<void> {
         title: title,
         description: description,
         deadline: deadline,
-        category: category,
+        priority: priority,
       },
     });
     res.status(202).json({
@@ -109,7 +112,27 @@ export async function deleteTask(req: Request, res: Response): Promise<void> {
         message: "Task not found",
         status: false,
       });
+      return;
     }
+
+    const category: ICategory | null = await Category.findByIdAndUpdate(
+      taskToDelete.category,
+      {
+        $pull: {
+          tasks: taskToDelete._id,
+        },
+      },
+      { new: true }
+    );
+
+    if (!category) {
+      res.status(404).json({
+        message: "Category not found",
+        status: false,
+      });
+      return;
+    }
+
     res.status(202).json({
       message: "Task deleted",
       status: true,
@@ -128,13 +151,17 @@ export async function markCompleteTask(
   res: Response
 ): Promise<void> {
   try {
-    const taskId = new mongoose.Types.ObjectId(req.params.id);
-    const taskToMark: ITask | null = await Task.findByIdAndUpdate(taskId, {
-      $set:{
-        deadline: "",
-        completed: true,
-      }
-    },{new: true});
+    const taskId = new mongoose.Types.ObjectId(req.params.taskid);
+    const taskToMark: ITask | null = await Task.findByIdAndUpdate(
+      taskId,
+      {
+        $set: {
+          deadline: "",
+          completed: true,
+        },
+      },
+      { new: true }
+    );
     if (!taskToMark) {
       res.status(404).json({
         message: "Task not found",
@@ -152,5 +179,25 @@ export async function markCompleteTask(
       message: "Server side error",
       success: false,
     });
+  }
+}
+
+export async function getAlltasks(req: Request, res: Response):Promise<void>{
+  try{
+
+    const ownerId: mongoose.Types.ObjectId = req.id;
+    const allTasks: ITask[] = await Task.find({owner: ownerId});
+    res.status(200).json({
+      message: "all task successful",
+      allTasks: allTasks,
+      success: true
+    })
+  }catch(error){
+    console.log(error);
+    res.status(500).json({
+      message: "Server side error",
+      success: false,
+    });
+
   }
 }
