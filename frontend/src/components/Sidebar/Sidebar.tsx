@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Categories from "../Categories/Categories";
 import { IoIosArrowDropdown, IoMdAddCircle } from "react-icons/io";
 import "./sidebar.css";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
+import { AppContext } from "../../Context/appContext";
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
@@ -11,7 +14,7 @@ const Sidebar: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [openAddCategory, setOpenAddCategory] = useState<boolean>(false);
   const [category,  setCategory] = useState<string>("");
-
+  const context = useContext(AppContext)
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       if (
@@ -26,13 +29,38 @@ const Sidebar: React.FC = () => {
       document.removeEventListener("mousedown", handleClick);
     };
   }, []);
+  if (!context) {
+    return <div>Loading...</div>;
+  }
 
-  const addCategoryHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const addCategoryHandler = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     e.stopPropagation();
-    setOpenAddCategory(false);
-    setCategory("");
-    navigate("/");
-    console.log(category);
+    console.log(category)
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/addCategory", {category},{
+          headers:{
+            "Content-Type": "application/json"
+          },
+          withCredentials: true
+        }
+      );
+      if(response.data.success){
+        toast.success(response.data.message);
+        context.dispatch({type:"add_category", payload: response.data.data})
+        setOpenAddCategory(false);
+        setCategory("");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      if(error instanceof AxiosError){
+        toast.error(error.response?.data.message);
+      }
+      else{
+        toast.error("Unexpected error occured")
+      }
+    }
   };
 
   const toggleOpen = (): void => {
@@ -61,9 +89,14 @@ const Sidebar: React.FC = () => {
       <div className="categories gap">
         <span>Categories</span>
       </div>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
+      {/* {state.category.map((category) => (
         <Categories key={index} text="Work" color="category-color" />
-      ))}
+      ))} */}
+      {
+        context.state.categories.map((category)=>{
+          return <Categories key={category._id} text={category.categoryName} color="category-color" />;
+        })
+      }
       <div className="categories add" onClick={() => setOpenAddCategory(true)}>
         <IoMdAddCircle size={20} /> <span>Add a new Category</span>
         {openAddCategory && (

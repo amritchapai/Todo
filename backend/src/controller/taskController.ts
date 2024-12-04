@@ -31,6 +31,7 @@ export async function addTask(req: Request, res: Response): Promise<void> {
       description,
       deadline,
       priority,
+      category: categoryId
     });
     const category: ICategory | null = await Category.findByIdAndUpdate(
       categoryId,
@@ -189,6 +190,7 @@ export async function getAlltasks(req: Request, res: Response):Promise<void>{
 
     const ownerId: mongoose.Types.ObjectId = req.id;
     const allTasks: ITask[] = await Task.find({owner: ownerId});
+    console.log(ownerId)
     res.status(200).json({
       message: "all task successful",
       data: allTasks,

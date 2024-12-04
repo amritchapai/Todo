@@ -6,19 +6,24 @@ import { useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import ITask from "../../Interfaces/taskInterface";
+import { SiTicktick } from "react-icons/si";
 
 interface taskProps {
   color: string;
+  task: ITask
+  category: string | undefined
 }
 
-const Task: React.FC<taskProps> = ({ color }) => {
+const Task: React.FC<taskProps> = ({ color, task, category}) => {
   const outsideClick = useRef<HTMLDivElement | null>(null)
   const [openOptions, setOpenOptions] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
+  const deadline:string = task.deadline.split("T")[0]
   const taskClickHandler = (): void => {
-    navigate("/taskdetail", {
+    navigate(`/taskdetail/${task._id}`, {
       state: {
         color: color,
       },
@@ -47,7 +52,7 @@ const Task: React.FC<taskProps> = ({ color }) => {
     <div className={`task-container ${color}`} onClick={taskClickHandler}>
       <div className="task-header">
         <div className="task-header-inner">
-          <span> Lorem, ipsum dolor.</span>
+          <span> {task.title}</span>
           <div className="vertical-dots">
             <div onClick={functionOpenOption}>
               <BsThreeDotsVertical size={18} />
@@ -67,17 +72,15 @@ const Task: React.FC<taskProps> = ({ color }) => {
           </div>
         </div>
         <div className="task-inner-header">
-          <span className="inner-text">Category</span>
-          <span className="inner-text">Deadline:</span>
-          {/* <SiTicktick size={20}/> */}
-          <FaRegCircle />
+          <span className="inner-text">{category}</span>
+          <span className="inner-text">{deadline}</span>
+
+          {task.completed ? <SiTicktick size={20} /> : <FaRegCircle size={20}/>}
         </div>
       </div>
       <hr />
       <div className="task-body">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur harum
-        libero dolore itaque repudiandae distinctio voluptatum cupiditate vel
-        consectetur dolorum?
+        {task.description}
       </div>
     </div>
   );

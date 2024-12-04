@@ -3,10 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "./styles/registration.css";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
+import { toast } from "sonner";
 const Registration: React.FC = () => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean | null>(null);
 
   const [user, setUser] = useState({
     name: "",
@@ -35,27 +34,17 @@ const Registration: React.FC = () => {
           withCredentials: true,
         }
       );
-
-      setMessage(response.data.message);
-      setSuccess(response.data.success);
-
-      setTimeout(() => {
-        setMessage(null);
-        setSuccess(null);
-        if (response.data.success) navigate("/login");
-      }, 1000);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setMessage(error.response?.data.message);
-        setSuccess(false);
-      } else {
-        setMessage("An unexpected error occurred."); // Handle network errors
-        setSuccess(false);
+      if (response.data.success) {
+        toast.success(response.data.message);
+        navigate("/login");
       }
-
-      setTimeout(() => {
-        setMessage(null);
-      }, 1500);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError)
+        toast.error(error.response?.data?.message);
+      else {
+        toast.error("Unexpected error occured");
+      }
     }
   };
   return (
@@ -103,9 +92,6 @@ const Registration: React.FC = () => {
             </p>
           </form>
         </div>
-      </div>
-      <div className={`error-message ${success} `}>
-        {message && <div className="message">{message}</div>}
       </div>
     </div>
   );

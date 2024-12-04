@@ -4,7 +4,7 @@ export default interface ITask {
   title: string;
   description: string;
   deadline: string;
-  category: string;
   completed: boolean;
   priority: string;
+  category: string
 }

@@ -3,10 +3,9 @@ import "./styles/login.css";
 import Button from "../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
 
 const Login: React.FC = () => {
-  const [message, setMessage] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -34,25 +33,16 @@ const Login: React.FC = () => {
           withCredentials: true,
         }
       );
-      setMessage(response.data.message);
-      setSuccess(response.data.success);
-      setTimeout(() => {
-        setMessage(null);
-        setSuccess(null);
+      if (response.data.success) {
+        toast.success(response.data.message);
         navigate("/");
-      }, 1000);
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
-        setMessage(error.response?.data.message);
-        setSuccess(error.response?.data.success);
+        toast.error(error.response?.data.message);
       } else {
-        setMessage("An Unexpected error occured");
-        setSuccess(false);
+        toast.error("Unexpected error occured");
       }
-      setTimeout(() => {
-        setMessage(null);
-        setSuccess(null);
-      }, 1500);
     }
   };
   return (
@@ -85,9 +75,6 @@ const Login: React.FC = () => {
             </p>
           </form>
         </div>
-      </div>
-      <div className={`error-message ${success} `}>
-        {message && <div className="message">{message}</div>}
       </div>
     </div>
   );

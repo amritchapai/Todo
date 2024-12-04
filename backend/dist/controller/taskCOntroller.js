@@ -39,6 +39,7 @@ function addTask(req, res) {
                 description,
                 deadline,
                 priority,
+                category: categoryId
             });
             const category = yield categoriesModel_1.default.findByIdAndUpdate(categoryId, {
                 $push: {
@@ -186,6 +187,7 @@ function getAlltasks(req, res) {
         try {
             const ownerId = req.id;
             const allTasks = yield taskModel_1.default.find({ owner: ownerId });
+            console.log(ownerId);
             res.status(200).json({
                 message: "all task successful",
                 data: allTasks,

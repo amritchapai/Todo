@@ -1,20 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./styles/allpage.css"
 import Task from '../components/Task/Task';
+import { AppContext } from '../Context/appContext';
+import ICategory from '../Interfaces/categoryInterface';
 
 
 
 const AllPage:React.FC = () => {
   const colors: string[] = ["gray", "blue", "green", "brown"];
+  const context = useContext(AppContext);
+  if(!context){
+    return <div>Loading.........</div>
+  }
+  console.log(context.state)
   let colorIndex: number = 0
-  const task = [1, 2,3,4,5,6,7,8,9,10,22,34];
   return (
     <div className="all-page">
       {
-        task.map((index)=>{
+        context.state.task.map((task)=>{
           const color = colors[colorIndex % colors.length]
           colorIndex++;
-          return <Task key={index} color={color}/>
+          const category: ICategory | undefined = context.state.categories.find((category)=> category._id === task.category)
+          return <Task key={task._id} color={color} task= {task} category={category?.categoryName}/>
         })
       }
     </div>

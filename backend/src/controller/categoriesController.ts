@@ -8,6 +8,14 @@ export async function addCategory(req: Request, res: Response): Promise<void> {
   try {
     const ownerId: mongoose.Types.ObjectId = req.id;
     const { category } = req.body;
+
+     if (!category) {
+       res.status(400).json({
+         message: "Category name is required",
+         success: false,
+       });
+       return;
+     }
     //check whether same category exist or not
     const existingCategory: ICategory | null = await Category.findOne({
       categoryName: category,
@@ -50,8 +58,9 @@ export async function addCategory(req: Request, res: Response): Promise<void> {
       data: newCategory,
     });
   } catch (error) {
+    console.log(error)
     res.status(500).json({
-      message: "server side error",
+      message: "Server side error",
       success: false,
     });
   }

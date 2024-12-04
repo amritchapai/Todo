@@ -87,7 +87,7 @@ function loginUser(req, res) {
                 id: loginUser._id,
             };
             const token = jsonwebtoken_1.default.sign(payload, env_1.default.secretKey, {
-                expiresIn: "1d",
+                expiresIn: "7d",
             });
             const passUser = {
                 name: loginUser.name,
@@ -97,7 +97,7 @@ function loginUser(req, res) {
                 .cookie("token", token, {
                 httpOnly: true,
                 sameSite: "strict",
-                maxAge: 36000,
+                maxAge: 7 * 24 * 60 * 60 * 1000,
             })
                 .json({
                 message: "Login successful",

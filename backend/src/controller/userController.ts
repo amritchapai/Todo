@@ -90,7 +90,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       id: loginUser._id as mongoose.Types.ObjectId,
     };
     const token = jwt.sign(payload, envVariables.secretKey, {
-      expiresIn: "1d",
+      expiresIn: "7d",
     });
 
 
@@ -103,7 +103,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       .cookie("token", token, {
         httpOnly: true,
         sameSite: "strict",
-        maxAge: 36000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
         message: "Login successful",

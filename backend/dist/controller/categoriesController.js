@@ -24,6 +24,13 @@ function addCategory(req, res) {
         try {
             const ownerId = req.id;
             const { category } = req.body;
+            if (!category) {
+                res.status(400).json({
+                    message: "Category name is required",
+                    success: false,
+                });
+                return;
+            }
             //check whether same category exist or not
             const existingCategory = yield categoriesModel_1.default.findOne({
                 categoryName: category,
@@ -62,8 +69,9 @@ function addCategory(req, res) {
             });
         }
         catch (error) {
+            console.log(error);
             res.status(500).json({
-                message: "server side error",
+                message: "Server side error",
                 success: false,
             });
         }
