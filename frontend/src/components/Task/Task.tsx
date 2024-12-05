@@ -20,8 +20,11 @@ const Task: React.FC<taskProps> = ({ color, task, category}) => {
   const [openOptions, setOpenOptions] = useState<boolean>(false);
 
   const navigate = useNavigate();
-
-  const deadline:string = task.deadline.split("T")[0]
+  let deadline: string = "";
+  if(task.deadline){
+    deadline = task.deadline.split("T")[0];
+  }
+  
   const taskClickHandler = (): void => {
     navigate(`/taskdetail/${task._id}`, {
       state: {

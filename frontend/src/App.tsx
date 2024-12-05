@@ -18,8 +18,8 @@ const App: React.FC = () => {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<AllPage />} />
           <Route path="/taskdetail/:id" element={<TaskDetail />} />
-          <Route path="/addtask" element={<AddTask />} />
-          <Route path="/category/:categoryname" element={<CategoryPage />} />
+          <Route path="/addtask/:categoryid" element={<AddTask />} />
+          <Route path="/category/:categoryid" element={<CategoryPage />} />
           <Route path="/edittask/:tasktitle" element={<EditTask />} />
         </Route>
       </Routes>

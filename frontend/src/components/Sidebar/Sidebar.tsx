@@ -71,6 +71,10 @@ const Sidebar: React.FC = () => {
     setCategory(e.target.value);
     console.log(e.target.value);
   };
+
+  const openByCategory =(categoryId: string):void=>{
+    navigate(`/category/${categoryId}`)
+  }
   return (
     <div className="sidebar-container">
       <div className="priority cursor" onClick={toggleOpen}>
@@ -89,12 +93,17 @@ const Sidebar: React.FC = () => {
       <div className="categories gap">
         <span>Categories</span>
       </div>
-      {/* {state.category.map((category) => (
-        <Categories key={index} text="Work" color="category-color" />
-      ))} */}
       {
         context.state.categories.map((category)=>{
-          return <Categories key={category._id} text={category.categoryName} color="category-color" />;
+          return (
+            <div onClick={()=>openByCategory(category._id)}>
+              <Categories
+                key={category._id}
+                text={category.categoryName}
+                color="category-color"
+              />
+            </div>
+          );
         })
       }
       <div className="categories add" onClick={() => setOpenAddCategory(true)}>
