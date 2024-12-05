@@ -34,16 +34,27 @@ const CategoryPage:React.FC = () => {
   };
   return (
     <div className="all-page">
-      {category.tasks.map((task) => {
-        const color = colors[colorIndex % colors.length];
-        colorIndex++;
-        return <Task key={task._id} task={task} category={category.categoryName} color={color} />;
-      })}
-        <button className='add-task-button' onClick={addTaskHandler}> <div className='add-task-button-div'>
-            <IoAddCircleSharp size={30}/>
-            <span>Add Task</span>
-            </div>
-            </button>
+      <div className='all-page-inner'>
+        {category.tasks.map((task) => {
+          const color = colors[colorIndex % colors.length];
+          colorIndex++;
+          return (
+            <Task
+              key={task._id}
+              task={task}
+              category={category.categoryName}
+              color={color}
+            />
+          );
+        })}
+      </div>
+      <button className="add-task-button" onClick={addTaskHandler}>
+        {" "}
+        <div className="add-task-button-div">
+          <IoAddCircleSharp size={30} />
+          <span>Add Task</span>
+        </div>
+      </button>
     </div>
   );
 }

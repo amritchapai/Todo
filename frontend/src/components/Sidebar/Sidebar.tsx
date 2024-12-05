@@ -96,7 +96,7 @@ const Sidebar: React.FC = () => {
       {
         context.state.categories.map((category)=>{
           return (
-            <div onClick={()=>openByCategory(category._id)}>
+            <div key={category._id} onClick={()=>openByCategory(category._id)}>
               <Categories
                 key={category._id}
                 text={category.categoryName}

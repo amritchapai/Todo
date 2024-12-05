@@ -1,12 +1,15 @@
 .all-page {
+  margin-bottom: 10px;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   width: 100%;
-  height: 100%;
-  gap: 10px;
+  height: fit-content;
+  justify-content: center;
 }
 
-.all-page > div {
-  flex: 0 0 auto;
+.all-page-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  justify-content: center;
+  align-content: center;
 }
