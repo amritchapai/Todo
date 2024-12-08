@@ -107,7 +107,8 @@ export async function editTask(req: Request, res: Response): Promise<void> {
 //to delete task
 export async function deleteTask(req: Request, res: Response): Promise<void> {
   try {
-    const taskId = new mongoose.Types.ObjectId(req.params.id);
+    const taskId = req.params.taskid;
+    console.log(taskId);
     const taskToDelete: ITask | null = await Task.findByIdAndDelete(taskId);
     if (!taskToDelete) {
       res.status(404).json({
@@ -190,7 +191,6 @@ export async function getAlltasks(req: Request, res: Response):Promise<void>{
 
     const ownerId: mongoose.Types.ObjectId = req.id;
     const allTasks: ITask[] = await Task.find({owner: ownerId});
-    console.log(ownerId)
     res.status(200).json({
       message: "all task successful",
       data: allTasks,
