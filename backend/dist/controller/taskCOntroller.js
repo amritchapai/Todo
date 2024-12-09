@@ -115,12 +115,12 @@ function editTask(req, res) {
 function deleteTask(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const taskId = new mongoose_1.default.Types.ObjectId(req.params.id);
+            const taskId = new mongoose_1.default.Types.ObjectId(req.params.taskid);
             const taskToDelete = yield taskModel_1.default.findByIdAndDelete(taskId);
             if (!taskToDelete) {
                 res.status(404).json({
                     message: "Task not found",
-                    status: false,
+                    success: false,
                 });
                 return;
             }
@@ -132,13 +132,13 @@ function deleteTask(req, res) {
             if (!category) {
                 res.status(404).json({
                     message: "Category not found",
-                    status: false,
+                    success: false,
                 });
                 return;
             }
             res.status(202).json({
                 message: "Task deleted",
-                status: true,
+                success: true,
             });
         }
         catch (error) {
@@ -163,13 +163,13 @@ function markCompleteTask(req, res) {
             if (!taskMark) {
                 res.status(404).json({
                     message: "Task not found",
-                    status: false,
+                    success: false,
                 });
                 return;
             }
             res.status(202).json({
                 message: "Marked Complete",
-                status: true,
+                success: true,
                 data: taskMark
             });
         }
@@ -187,7 +187,6 @@ function getAlltasks(req, res) {
         try {
             const ownerId = req.id;
             const allTasks = yield taskModel_1.default.find({ owner: ownerId });
-            console.log(ownerId);
             res.status(200).json({
                 message: "all task successful",
                 data: allTasks,

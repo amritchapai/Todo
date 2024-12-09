@@ -51,7 +51,6 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
     e: React.MouseEvent<HTMLDivElement>
   ): Promise<void> => {
     e.stopPropagation();
-    console.log(task._id);
     try {
       const response = await axios.post(
         `http://localhost:8080/api/deletetask/${task._id}`,{},{
@@ -60,6 +59,7 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
       );
       console.log(task._id);
       if (response.data.success) {
+        console.log(response.data.message)
         toast.success(response.data.message);
         context?.dispatch({ type: "delete_task", payload: task._id });
       }

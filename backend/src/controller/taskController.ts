@@ -107,13 +107,12 @@ export async function editTask(req: Request, res: Response): Promise<void> {
 //to delete task
 export async function deleteTask(req: Request, res: Response): Promise<void> {
   try {
-    const taskId = req.params.taskid;
-    console.log(taskId);
+    const taskId = new mongoose.Types.ObjectId(req.params.taskid); 
     const taskToDelete: ITask | null = await Task.findByIdAndDelete(taskId);
     if (!taskToDelete) {
       res.status(404).json({
         message: "Task not found",
-        status: false,
+        success: false,
       });
       return;
     }
@@ -131,14 +130,14 @@ export async function deleteTask(req: Request, res: Response): Promise<void> {
     if (!category) {
       res.status(404).json({
         message: "Category not found",
-        status: false,
+        success: false,
       });
       return;
     }
 
     res.status(202).json({
       message: "Task deleted",
-      status: true,
+      success: true,
     });
   } catch (error) {
     console.log(error);
@@ -168,13 +167,13 @@ export async function markCompleteTask(
     if (!taskMark) {
       res.status(404).json({
         message: "Task not found",
-        status: false,
+        success: false,
       });
       return;
     }
     res.status(202).json({
       message: "Marked Complete",
-      status: true,
+      success: true,
       data: taskMark
     });
   } catch (error) {

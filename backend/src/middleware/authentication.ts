@@ -19,7 +19,6 @@ async function authentication(
 ): Promise<void> {
   try {
     const token: string = req.cookies.token;
-    console.log(token);
     if (!token) {
       res.status(400).json({
         message: "Token is missing",
