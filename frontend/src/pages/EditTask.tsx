@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "../components/Button/Button";
 import "./styles/addtask.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AppContext } from "../Context/appContext";
+import ITask from "../Interfaces/taskInterface";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
 
 interface editTask {
   title: string;
@@ -10,13 +15,34 @@ interface editTask {
 }
 
 const EditTask: React.FC = () => {
+  const navigate = useNavigate();
+  const context = useContext(AppContext);
   const [taskDetail, setTaskDetail] = useState<editTask>({
-    title: "hello",
-    description: "how are you",
-    deadline: "2024-04-09",
-    priority: "Medium",
+    title: "",
+    description: "",
+    deadline: "",
+    priority: "",
   });
 
+  const location = useLocation();
+  const taskId = location.pathname.split("/")[2];
+
+  const task: ITask | undefined = context?.state.task.find((task) => {
+    return task._id === taskId;
+  });
+
+  useEffect(() => {
+    if (task) {
+      setTaskDetail({
+        title: task.title,
+        description: task.description,
+        deadline: task.deadline.split("T")[0],
+        priority: task.priority,
+      });
+    }
+  }, [task]);
+
+  console.log(taskDetail);
   const changeEventHandler = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -25,8 +51,32 @@ const EditTask: React.FC = () => {
     setTaskDetail({ ...taskDetail, [e.target.name]: e.target.value });
   };
 
-  const editTaskHandler = (): void => {
+  const editTaskHandler = async (): Promise<void> => {
     console.log(taskDetail);
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/edittask/${task?._id}`,
+        taskDetail,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
+        context?.dispatch({type: "edit_task", payload: response.data.data})
+        navigate(`/taskdetail/${task?._id}`);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+        console.log(error);
+      } else {
+        toast.error("Unexpected error occured");
+      }
+    }
   };
   return (
     <div className="add-task-container">
