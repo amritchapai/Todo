@@ -1,16 +1,14 @@
 import React, {useContext, useEffect, useRef, useState } from "react";
-import { FaRegCircle } from "react-icons/fa";
-// import { SiTicktick } from 'react-icons/si';
 import "./task.css";
 import { useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import ITask from "../../Interfaces/taskInterface";
-import { SiTicktick } from "react-icons/si";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { AppContext } from "../../Context/appContext";
+import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 
 interface taskProps {
   color: string;
@@ -41,6 +39,28 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
     e.stopPropagation();
     setOpenOptions(true);
   };
+
+  const markCompleted = async(e: React.MouseEvent<SVGElement>):Promise<void>=>{
+    e.stopPropagation();
+    try {
+      console.log(task._id);
+      const response = await axios.post(
+        `http://localhost:8080/api/markcomplete/${task._id}`,{},{
+          withCredentials: true
+        }
+      );
+      if(response.data.success){
+        context?.dispatch({type: "markTaskCompelete", payload: response.data.data});
+      }
+    } catch (error) {
+      if(error instanceof AxiosError){
+        toast.error(error.response?.data.message)
+      }
+      else{
+        toast.error("Unexpected Error Occurred");
+      }
+    }
+  }
 
   const editHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
@@ -117,9 +137,9 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
           <span className="inner-text">{deadline}</span>
 
           {task.completed ? (
-            <SiTicktick size={20} />
+            <ImCheckboxChecked size={20} />
           ) : (
-            <FaRegCircle size={20} />
+            <ImCheckboxUnchecked size={20} onClick={markCompleted} />
           )}
         </div>
       </div>

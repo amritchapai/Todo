@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/addtask/:categoryId", authentication, addTask);
 router.post("/edittask/:taskid", authentication, editTask);
-router.post("/markcomplete/:id", authentication, markCompleteTask),
+router.post("/markcomplete/:taskid", authentication, markCompleteTask),
 router.post("/deletetask/:taskid", authentication, deleteTask),
 router.get("/getalltask", authentication, getAlltasks)
 
