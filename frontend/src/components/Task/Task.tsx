@@ -11,7 +11,7 @@ import { AppContext } from "../../Context/appContext";
 import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 
 interface taskProps {
-  color: string;
+  color?: string;
   task: ITask;
   category: string | undefined;
 }

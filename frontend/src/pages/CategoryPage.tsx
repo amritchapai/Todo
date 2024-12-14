@@ -1,49 +1,53 @@
-import React, { useContext } from 'react'
-import Task from '../components/Task/Task';
+import React, { useContext } from "react";
+import Task from "../components/Task/Task";
 import { IoAddCircleSharp } from "react-icons/io5";
-import "./styles/categorypage.css"
-import "./styles/allpage.css"
-import { AppContext } from '../Context/appContext';
-import { useLocation, useNavigate } from 'react-router-dom';
-import ICategory from '../Interfaces/categoryInterface';
+import "./styles/categorypage.css";
+import "./styles/allpage.css";
+import { AppContext } from "../Context/appContext";
+import { useLocation, useNavigate } from "react-router-dom";
+import ICategory from "../Interfaces/categoryInterface";
 
+interface colors {
+  [key: string]: string;
+}
 
-
-const CategoryPage:React.FC = () => {
+const CategoryPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const context = useContext(AppContext);
 
-  if(!context){
-    return <div>Loading......</div>
+  const colors: colors = {
+    High: "gray",
+    Medium: "blue",
+    Low: "green",
+  };
+
+  if (!context) {
+    return <div>Loading......</div>;
   }
 
-  const categoryId: string = location.pathname.split('/')[2];
+  const categoryId: string = location.pathname.split("/")[2];
 
-  const category: ICategory | undefined = context.state.categories.find((category)=> category._id === categoryId) ;
-    if(!category){
-     return <div>Category doesnt exist. You need to create first</div>
-    }
+  const category: ICategory | undefined = context.state.categories.find(
+    (category) => category._id === categoryId
+  );
+  if (!category) {
+    return <div>Category doesnt exist. You need to create first</div>;
+  }
 
-
-  const colors: string[] = ["gray", "blue", "green", "brown"];
-  let colorIndex: number = 0;
-  // const task = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 22, 34];
-  const addTaskHandler = ():void => {
+  const addTaskHandler = (): void => {
     navigate(`/addtask/${category._id}`);
   };
   return (
     <div className="all-page">
-      <div className='all-page-inner'>
+      <div className="all-page-inner">
         {category.tasks.map((task) => {
-          const color = colors[colorIndex % colors.length];
-          colorIndex++;
           return (
             <Task
               key={task._id}
               task={task}
               category={category.categoryName}
-              color={color}
+              color={colors[task.priority]}
             />
           );
         })}
@@ -57,6 +61,6 @@ const CategoryPage:React.FC = () => {
       </button>
     </div>
   );
-}
+};
 
-export default CategoryPage
+export default CategoryPage;

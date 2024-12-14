@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
       }
     };
     fetchCategories();
-  }, []);
+  },[]);
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
       }
     };
     fetchTask();
-  }, []);
+  },[]);
 
   const navigate = useNavigate();
   const logoutHandler = async () => {

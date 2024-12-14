@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Categories from "../Categories/Categories";
-import { IoIosArrowDropdown, IoMdAddCircle } from "react-icons/io";
+import { IoMdAddCircle } from "react-icons/io";
 import "./sidebar.css";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,6 @@ import { AppContext } from "../../Context/appContext";
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const mouseClickRef = useRef<HTMLDivElement | null>(null);
-  const [open, setOpen] = useState<boolean>(false);
   const [openAddCategory, setOpenAddCategory] = useState<boolean>(false);
   const [category,  setCategory] = useState<string>("");
   const context = useContext(AppContext)
@@ -63,9 +62,6 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  const toggleOpen = (): void => {
-    setOpen((prev) => !prev);
-  };
 
   const addCategoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCategory(e.target.value);
@@ -77,19 +73,6 @@ const Sidebar: React.FC = () => {
   }
   return (
     <div className="sidebar-container">
-      <div className="priority cursor" onClick={toggleOpen}>
-        <div className="priority-inner">
-          <span>Priority</span>
-          <IoIosArrowDropdown size={20} />
-        </div>
-      </div>
-      {open && (
-        <div>
-          <Categories key={-1} text="High" />
-          <Categories key={-2} text="Medium" />
-          <Categories key={-3} text="Low" />
-        </div>
-      )}
       <div className="categories gap">
         <span>Categories</span>
       </div>
@@ -99,7 +82,7 @@ const Sidebar: React.FC = () => {
             <div key={category._id} onClick={()=>openByCategory(category._id)}>
               <Categories
                 key={category._id}
-                text={category.categoryName}
+                category = {category}
                 color="category-color"
               />
             </div>
@@ -113,7 +96,6 @@ const Sidebar: React.FC = () => {
             <div className="add-header">
               <span>Add category</span>
             </div>
-            <hr />
             <div className="add-body">
               <label>
                 Category name

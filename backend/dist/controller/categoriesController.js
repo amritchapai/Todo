@@ -102,6 +102,7 @@ function deleteCategory(req, res) {
             res.status(200).json({
                 message: "Deletion successful",
                 success: true,
+                data: category
             });
         }
         catch (error) {

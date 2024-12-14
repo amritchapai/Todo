@@ -73,6 +73,7 @@ export async function deleteCategory(
   try {
     const ownerId: mongoose.Types.ObjectId = req.id;
     const categoryId = new mongoose.Types.ObjectId(req.params.categoryId);
+    
     const category: ICategory | null = await Category.findByIdAndDelete(
       categoryId
     );
@@ -99,6 +100,7 @@ export async function deleteCategory(
     res.status(200).json({
       message: "Deletion successful",
       success: true,
+      data: category
     });
   } catch (error) {
     console.log(error);
