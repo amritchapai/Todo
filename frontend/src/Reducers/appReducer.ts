@@ -59,6 +59,13 @@ export const appReducer = (state: appState, action: Iaction): appState => {
           return task._id === action.payload._id ? action.payload : task;
         }),
       };
+
+    case "clear_state":
+      return {
+        task: [],
+        categories: [],
+      };
+
     default:
       return state;
   }

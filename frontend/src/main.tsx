@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { Toaster } from 'sonner'
-import { AppProvider} from './Context/appContext.tsx'
+import { AppProvider } from './Context/appProvider.tsx'
+
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
