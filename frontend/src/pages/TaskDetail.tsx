@@ -11,11 +11,16 @@ import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 
-interface stateElements {
-  color: string;
+interface colors {
+  [key: string]: string;
 }
 
 const TaskDetail: React.FC = () => {
+  const colors: colors = {
+    High: "gray",
+    Medium: "blue",
+    Low: "green",
+  };
   const context = useContext(AppContext);
 
   const location = useLocation();
@@ -48,12 +53,15 @@ const TaskDetail: React.FC = () => {
 
   const currentLocation: string = location.pathname;
   const taskId: string = currentLocation.split("/")[2];
-  const state: stateElements = location.state;
   const task: ITask | undefined = context.state.task.find(
     (task) => task._id === taskId
   );
   if (!task) {
     return <div>Such task does not exist</div>;
+  }
+  let deadline: string = "";
+  if (task.deadline) {
+    deadline = task.deadline.split("T")[0];
   }
   const category: ICategory | undefined = context.state.categories.find(
     (category) => category._id === task.category
@@ -88,7 +96,7 @@ const TaskDetail: React.FC = () => {
   };
 
   return (
-    <div className={`detail-container ${state?.color}`}>
+    <div className={`detail-container ${colors[task.priority]}`}>
       <div className="detail-header">
         <div className="detail-header-inner">
           <span>{task.title}</span>
@@ -117,7 +125,7 @@ const TaskDetail: React.FC = () => {
             <ImCheckboxChecked size={20} />
           ) : (
             <>
-              <span className="inner-text">{task.deadline.split("T")[0]}</span>
+              <span className="inner-text">{deadline}</span>
               <ImCheckboxUnchecked size={20} onClick={markCompleted} />
             </>
           )}

@@ -3,17 +3,20 @@ import Categories from "../Categories/Categories";
 import { IoMdAddCircle } from "react-icons/io";
 import "./sidebar.css";
 import Button from "../Button/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { AppContext } from "../../Context/appContext";
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const mouseClickRef = useRef<HTMLDivElement | null>(null);
   const [openAddCategory, setOpenAddCategory] = useState<boolean>(false);
-  const [category,  setCategory] = useState<string>("");
-  const context = useContext(AppContext)
+  const [category, setCategory] = useState<string>("");
+  const context = useContext(AppContext);
+  const currentPath = location.pathname;
+
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       if (
@@ -32,63 +35,68 @@ const Sidebar: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const addCategoryHandler = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const addCategoryHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     e.stopPropagation();
-    console.log(category)
+    console.log(category);
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/addCategory", {category},{
-          headers:{
-            "Content-Type": "application/json"
+        "http://localhost:8080/api/addCategory",
+        { category },
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
-      if(response.data.success){
+      if (response.data.success) {
         toast.success(response.data.message);
-        context.dispatch({type:"add_category", payload: response.data.data})
+        context.dispatch({ type: "add_category", payload: response.data.data });
         setOpenAddCategory(false);
         setCategory("");
         navigate("/");
       }
     } catch (error) {
       console.log(error);
-      if(error instanceof AxiosError){
+      if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
-      }
-      else{
-        toast.error("Unexpected error occured")
+      } else {
+        toast.error("Unexpected error occured");
       }
     }
   };
-
 
   const addCategoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCategory(e.target.value);
     console.log(e.target.value);
   };
 
-  const openByCategory =(categoryId: string):void=>{
-    navigate(`/category/${categoryId}`)
-  }
+  const openByCategory = (categoryId: string): void => {
+    navigate(`/category/${categoryId}`);
+  };
+
   return (
     <div className="sidebar-container">
+      <div
+        onClick={() => navigate("/")}
+        className={`category-card ${
+          currentPath === "/" ? "all-task-color" : ""
+        }`}
+      >
+        <span>All tasks</span>
+      </div>
       <div className="categories gap">
         <span>Categories</span>
       </div>
-      {
-        context.state.categories.map((category)=>{
-          return (
-            <div key={category._id} onClick={()=>openByCategory(category._id)}>
-              <Categories
-                key={category._id}
-                category = {category}
-                color="category-color"
-              />
-            </div>
-          );
-        })
-      }
+      {context.state.categories.map((category) => {
+        return (
+          <div key={category._id} onClick={() => openByCategory(category._id)}>
+            <Categories key={category._id} category={category} />
+          </div>
+        );
+      })}
       <div className="categories add" onClick={() => setOpenAddCategory(true)}>
         <IoMdAddCircle size={20} /> <span>Add a new Category</span>
         {openAddCategory && (

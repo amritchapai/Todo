@@ -5,17 +5,20 @@ import axios, { AxiosError } from 'axios';
 import ICategory from '../../Interfaces/categoryInterface';
 import { AppContext } from '../../Context/appContext';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface CategoriesProps{
     category: ICategory
-    action?: ()=>void,
-    color?: string
 }
 
-const Categories:React.FC<CategoriesProps>= ({category, color}) => {
+const Categories:React.FC<CategoriesProps>= ({category}) => {
+  const location = useLocation();
   const context = useContext(AppContext);
   const navigate = useNavigate();
+
+  const currentpath = location.pathname;
+  const currentCategoryId : string = currentpath.split("/")[2];
+  const isInCurrentCategory:boolean = currentCategoryId === category._id
 
   const deleteCategory = async ()=>{
     try {
@@ -41,10 +44,11 @@ const Categories:React.FC<CategoriesProps>= ({category, color}) => {
     }
   }
   return (
-    <div className={`category-card ${color}`}>
+    
+    <div className={`category-card ${isInCurrentCategory?"category-color":""}`}>
       <span>{category.categoryName} </span>
       <div className="delete-icon">
-        <MdDelete size={20} onClick={deleteCategory}/>
+        <MdDelete size={20} onClick={deleteCategory} />
       </div>
     </div>
   );

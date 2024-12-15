@@ -53,7 +53,6 @@ const CategoryPage: React.FC = () => {
         })}
       </div>
       <button className="add-task-button" onClick={addTaskHandler}>
-        {" "}
         <div className="add-task-button-div">
           <IoAddCircleSharp size={30} />
           <span>Add Task</span>
