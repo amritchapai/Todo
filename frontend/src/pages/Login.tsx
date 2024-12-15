@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/login.css";
 import Button from "../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,8 +7,14 @@ import { toast } from "sonner";
 import { useAuth } from "../Context/authContext";
 
 const Login: React.FC = () => {
-  const {setAuthentication} = useAuth();
+  const { isAuthenticated, setAuthentication } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, []);
 
   const [user, setUser] = useState({
     email: "",
