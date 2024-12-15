@@ -4,8 +4,10 @@ import Button from "../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
+import { useAuth } from "../Context/authContext";
 
 const Login: React.FC = () => {
+  const {setAuthentication} = useAuth();
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -35,6 +37,7 @@ const Login: React.FC = () => {
       );
       if (response.data.success) {
         toast.success(response.data.message);
+        setAuthentication(true);
         navigate("/");
       }
     } catch (error) {

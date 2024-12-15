@@ -17,7 +17,7 @@ const AddTask: React.FC = () => {
   const context = useContext(AppContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const categoryId:string = location.pathname.split("/")[2]
+  const categoryId: string = location.pathname.split("/")[2];
 
   const [taskDetail, setTaskDetail] = useState<addTask>({
     title: "",
@@ -31,33 +31,43 @@ const AddTask: React.FC = () => {
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
-    setTaskDetail({ ...taskDetail, [e.target.name]: e.target.value });
+    if (e.target.name === "title" && e.target.value.length > 25) {
+      toast.error("Title should be short");
+    } else {
+      setTaskDetail({ ...taskDetail, [e.target.name]: e.target.value });
+    }
   };
 
-  if(!context){
-    return <div>Loading......</div>
+  if (!context) {
+    return <div>Loading......</div>;
   }
 
-  const addTaskHandler = async(e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const addTaskHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     e.preventDefault();
     console.log(taskDetail);
     try {
-      const response = await axios.post(`http://localhost:8080/api/addtask/${categoryId}`, taskDetail,{
-        headers:{
-          "Content-Type": "application/json",
-        },
-        withCredentials: true
-      });
-      if(response.data.success){
+      const response = await axios.post(
+        `http://localhost:8080/api/addtask/${categoryId}`,
+        taskDetail,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (response.data.success) {
         toast.success(response.data.message);
-        context.dispatch({type:"add_task", payload: response.data.data})
+        context.dispatch({ type: "add_task", payload: response.data.data });
         navigate(`/category/${categoryId}`);
       }
     } catch (error) {
-      if(error instanceof AxiosError){
+      if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
-      }else{
-        toast.error("An Unexpected error occured")
+      } else {
+        toast.error("An Unexpected error occured");
       }
     }
   };

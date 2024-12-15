@@ -69,7 +69,13 @@ const Sidebar: React.FC = () => {
   };
 
   const addCategoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(e.target.value);
+    
+    if(e.target.value.length > 18){
+      toast.error("Category name should be short");
+    }
+    else{
+      setCategory(e.target.value);
+    }
     console.log(e.target.value);
   };
 

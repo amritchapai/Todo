@@ -36,7 +36,7 @@ const EditTask: React.FC = () => {
       setTaskDetail({
         title: task.title,
         description: task.description,
-        deadline: task.deadline.split("T")[0],
+        deadline: (task.deadline? task.deadline.split("T")[0]:""),
         priority: task.priority,
       });
     }
@@ -48,7 +48,12 @@ const EditTask: React.FC = () => {
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
-    setTaskDetail({ ...taskDetail, [e.target.name]: e.target.value });
+    if(e.target.name === "title" && e.target.value.length > 25){
+      toast.error("Title should be short")
+    }
+    else{
+      setTaskDetail({ ...taskDetail, [e.target.name]: e.target.value });
+    }
   };
 
   const editTaskHandler = async (): Promise<void> => {
@@ -145,7 +150,7 @@ const EditTask: React.FC = () => {
         </label>
       </form>
       <div className="form-button">
-        <Button text="Add Task" handler={editTaskHandler} />
+        <Button text="Edit Task" handler={editTaskHandler} />
       </div>
     </div>
   );
