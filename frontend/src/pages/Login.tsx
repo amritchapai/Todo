@@ -14,7 +14,7 @@ const Login: React.FC = () => {
     if (isAuthenticated) {
       navigate("/");
     }
-  }, []);
+  });
 
   const [user, setUser] = useState({
     email: "",

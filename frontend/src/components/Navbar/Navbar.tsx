@@ -8,7 +8,7 @@ import { AppContext } from "../../Context/appContext";
 import { useAuth } from "../../Context/authContext";
 
 const Navbar: React.FC = () => {
-  const {setAuthentication} = useAuth();
+  const { setAuthentication } = useAuth();
   const context = useContext(AppContext);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -19,11 +19,14 @@ const Navbar: React.FC = () => {
         }
       );
       if (response.data.success) {
-        context?.dispatch({ type: "set_category", payload: response.data.data });
+        context?.dispatch({
+          type: "set_category",
+          payload: response.data.data,
+        });
       }
     };
     fetchCategories();
-  },[]);
+  }, []);
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -37,7 +40,7 @@ const Navbar: React.FC = () => {
       }
     };
     fetchTask();
-  },[]);
+  }, []);
 
   const navigate = useNavigate();
   const logoutHandler = async () => {
@@ -53,7 +56,7 @@ const Navbar: React.FC = () => {
       if (response.data.success) {
         navigate("/login");
         toast.success(response.data.message);
-        context?.dispatch({type: "clear_state", payload: null});
+        context?.dispatch({ type: "clear_state", payload: null });
         setAuthentication(false);
       }
     } catch (error) {
