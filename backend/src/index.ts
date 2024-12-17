@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://todo-sand-five.vercel.app",
     optionsSuccessStatus: 200,
     credentials: true,
   })
@@ -23,7 +23,6 @@ app.use(
 app.use("/api/", userRouter);
 app.use("/api/", taskRouter);
 app.use("/api/", categoryRouter);
-
 
 //start server
 app.listen(envVariables.port, () => {
