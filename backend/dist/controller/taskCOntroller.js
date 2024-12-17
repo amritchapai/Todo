@@ -95,7 +95,7 @@ function editTask(req, res) {
                     deadline: deadline,
                     priority: priority,
                 },
-            });
+            }, { new: true });
             res.status(202).json({
                 message: "Update successful",
                 success: true,

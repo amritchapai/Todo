@@ -36,7 +36,7 @@ const EditTask: React.FC = () => {
       setTaskDetail({
         title: task.title,
         description: task.description,
-        deadline: (task.deadline? task.deadline.split("T")[0]:""),
+        deadline: task.deadline ? task.deadline.split("T")[0] : "",
         priority: task.priority,
       });
     }
@@ -48,16 +48,14 @@ const EditTask: React.FC = () => {
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
-    if(e.target.name === "title" && e.target.value.length > 25){
-      toast.error("Title should be short")
-    }
-    else{
+    if (e.target.name === "title" && e.target.value.length > 25) {
+      toast.error("Title should be short");
+    } else {
       setTaskDetail({ ...taskDetail, [e.target.name]: e.target.value });
     }
   };
 
   const editTaskHandler = async (): Promise<void> => {
-    console.log(taskDetail);
     try {
       const response = await axios.post(
         `http://localhost:8080/api/edittask/${task?._id}`,
@@ -71,13 +69,12 @@ const EditTask: React.FC = () => {
       );
       if (response.data.success) {
         toast.success(response.data.message);
-        context?.dispatch({type: "edit_task", payload: response.data.data})
+        context?.dispatch({ type: "edit_task", payload: response.data.data });
         navigate(`/taskdetail/${task?._id}`);
       }
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
-        console.log(error);
       } else {
         toast.error("Unexpected error occured");
       }

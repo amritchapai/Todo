@@ -31,10 +31,10 @@ function addCategory(req, res) {
                 });
                 return;
             }
+            //get array of all the categories from this user
+            const categories = yield categoriesModel_1.default.find({ owner: ownerId });
             //check whether same category exist or not
-            const existingCategory = yield categoriesModel_1.default.findOne({
-                categoryName: category,
-            });
+            const existingCategory = categories.find((oneCategory) => oneCategory.categoryName === category);
             if (existingCategory) {
                 res.status(400).json({
                     message: "Category already exists",
@@ -102,7 +102,7 @@ function deleteCategory(req, res) {
             res.status(200).json({
                 message: "Deletion successful",
                 success: true,
-                data: category
+                data: category,
             });
         }
         catch (error) {

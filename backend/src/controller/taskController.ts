@@ -89,7 +89,7 @@ export async function editTask(req: Request, res: Response): Promise<void> {
         deadline: deadline,
         priority: priority,
       },
-    });
+    },{new: true});
     res.status(202).json({
       message: "Update successful",
       success: true,

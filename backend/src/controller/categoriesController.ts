@@ -9,17 +9,21 @@ export async function addCategory(req: Request, res: Response): Promise<void> {
     const ownerId: mongoose.Types.ObjectId = req.id;
     const { category } = req.body;
 
-     if (!category) {
-       res.status(400).json({
-         message: "Category name is required",
-         success: false,
-       });
-       return;
-     }
+    if (!category) {
+      res.status(400).json({
+        message: "Category name is required",
+        success: false,
+      });
+      return;
+    }
+
+    //get array of all the categories from this user
+    const categories: ICategory[] = await Category.find({ owner: ownerId });
+
     //check whether same category exist or not
-    const existingCategory: ICategory | null = await Category.findOne({
-      categoryName: category,
-    });
+    const existingCategory: ICategory | undefined = categories.find(
+      (oneCategory) => oneCategory.categoryName === category
+    );
     if (existingCategory) {
       res.status(400).json({
         message: "Category already exists",
@@ -58,7 +62,7 @@ export async function addCategory(req: Request, res: Response): Promise<void> {
       data: newCategory,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       message: "Server side error",
       success: false,
@@ -73,7 +77,7 @@ export async function deleteCategory(
   try {
     const ownerId: mongoose.Types.ObjectId = req.id;
     const categoryId = new mongoose.Types.ObjectId(req.params.categoryId);
-    
+
     const category: ICategory | null = await Category.findByIdAndDelete(
       categoryId
     );
@@ -100,7 +104,7 @@ export async function deleteCategory(
     res.status(200).json({
       message: "Deletion successful",
       success: true,
-      data: category
+      data: category,
     });
   } catch (error) {
     console.log(error);

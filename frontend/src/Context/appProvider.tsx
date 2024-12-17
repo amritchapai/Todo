@@ -7,7 +7,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     task: [],
     categories: [],
   });
-  // useEffect(() => {
+
 
   //   const fetchTask = async () => {
   //     console.log("fetching task");
@@ -172,12 +172,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       value={{
         state,
         dispatch,
-        // addTask,
-        // editTask,
-        // deleteTask,
-        // addCategory,
-        // deleteCategory,
-        // markTaskCompelete,
       }}
     >
       {children}
