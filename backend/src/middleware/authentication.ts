@@ -28,6 +28,7 @@ async function authentication(
     }
     let payload: IPayload | null = null;
     try {
+      //get the payload where id was passed
       payload = jwt.verify(token, envVariables.secretKey) as IPayload;
     } catch (error) {
       res.status(401).json({

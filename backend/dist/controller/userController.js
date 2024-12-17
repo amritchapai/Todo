@@ -31,6 +31,7 @@ function addUser(req, res) {
                 });
                 return;
             }
+            //check if already have account
             const findUser = yield userModel_1.default.findOne({ email });
             if (findUser) {
                 res.status(409).json({
@@ -75,6 +76,7 @@ function loginUser(req, res) {
                 });
                 return;
             }
+            //compare passwords
             const passwordMatch = yield bcrypt_1.default.compare(password, loginUser.password);
             if (!passwordMatch) {
                 res.status(404).json({
@@ -86,6 +88,7 @@ function loginUser(req, res) {
             const payload = {
                 id: loginUser._id,
             };
+            //generate the token
             const token = jsonwebtoken_1.default.sign(payload, env_1.default.secretKey, {
                 expiresIn: "7d",
             });
@@ -93,6 +96,7 @@ function loginUser(req, res) {
                 name: loginUser.name,
                 email: loginUser.email,
             };
+            //put token in cookie and then pass the cookie
             res
                 .cookie("token", token, {
                 httpOnly: true,
@@ -117,6 +121,7 @@ function loginUser(req, res) {
 function logoutUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            //remove the token from cookie
             res.cookie("token", "", { maxAge: 0 }).json({
                 message: "Logout successful",
                 success: true

@@ -11,6 +11,7 @@ interface Iaction {
   payload: any;
 }
 
+//fuction to update state from the type of action that is passed
 export const appReducer = (state: appState, action: Iaction): appState => {
   switch (action.type) {
     case "set_tasks":

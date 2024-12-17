@@ -18,6 +18,7 @@ export async function addTask(req: Request, res: Response): Promise<void> {
       deadline: Date | null;
       priority: string | null;
     } = req.body;
+    //description is required so check for that
     if (!description) {
       res.status(400).json({
         message: "Description is required",
@@ -25,14 +26,17 @@ export async function addTask(req: Request, res: Response): Promise<void> {
       });
       return;
     }
+
+    //create task hten
     const task: ITask = await Task.create({
       owner: ownerId,
       title,
       description,
       deadline,
       priority,
-      category: categoryId
+      category: categoryId,
     });
+    //add the task in corresponding category
     const category: ICategory | null = await Category.findByIdAndUpdate(
       categoryId,
       {
@@ -74,6 +78,7 @@ export async function editTask(req: Request, res: Response): Promise<void> {
       });
       return;
     }
+    //check whether task exits or not
     const task: ITask | null = await Task.findById(taskId);
     if (!task) {
       res.status(404).json({
@@ -82,18 +87,23 @@ export async function editTask(req: Request, res: Response): Promise<void> {
       });
       return;
     }
-    const updatedtask = await Task.findByIdAndUpdate(taskId, {
-      $set: {
-        title: title,
-        description: description,
-        deadline: deadline,
-        priority: priority,
+    //if exists update it and pass
+    const updatedtask = await Task.findByIdAndUpdate(
+      taskId,
+      {
+        $set: {
+          title: title,
+          description: description,
+          deadline: deadline,
+          priority: priority,
+        },
       },
-    },{new: true});
+      { new: true }
+    );
     res.status(202).json({
       message: "Update successful",
       success: true,
-      data: updatedtask
+      data: updatedtask,
     });
   } catch (error) {
     console.log(error),
@@ -107,7 +117,9 @@ export async function editTask(req: Request, res: Response): Promise<void> {
 //to delete task
 export async function deleteTask(req: Request, res: Response): Promise<void> {
   try {
-    const taskId = new mongoose.Types.ObjectId(req.params.taskid); 
+    const taskId = new mongoose.Types.ObjectId(req.params.taskid);
+
+    //if task delete that task
     const taskToDelete: ITask | null = await Task.findByIdAndDelete(taskId);
     if (!taskToDelete) {
       res.status(404).json({
@@ -117,6 +129,7 @@ export async function deleteTask(req: Request, res: Response): Promise<void> {
       return;
     }
 
+    //if exists find the category and delete task in that category
     const category: ICategory | null = await Category.findByIdAndUpdate(
       taskToDelete.category,
       {
@@ -148,6 +161,7 @@ export async function deleteTask(req: Request, res: Response): Promise<void> {
   }
 }
 
+//mark complete the task
 export async function markCompleteTask(
   req: Request,
   res: Response
@@ -174,7 +188,7 @@ export async function markCompleteTask(
     res.status(202).json({
       message: "Marked Complete",
       success: true,
-      data: taskMark
+      data: taskMark,
     });
   } catch (error) {
     console.log(error);
@@ -185,22 +199,21 @@ export async function markCompleteTask(
   }
 }
 
-export async function getAlltasks(req: Request, res: Response):Promise<void>{
-  try{
-
+//fetch all task
+export async function getAlltasks(req: Request, res: Response): Promise<void> {
+  try {
     const ownerId: mongoose.Types.ObjectId = req.id;
-    const allTasks: ITask[] = await Task.find({owner: ownerId});
+    const allTasks: ITask[] = await Task.find({ owner: ownerId });
     res.status(200).json({
       message: "all task successful",
       data: allTasks,
-      success: true
-    })
-  }catch(error){
+      success: true,
+    });
+  } catch (error) {
     console.log(error);
     res.status(500).json({
       message: "Server side error",
       success: false,
     });
-
   }
 }

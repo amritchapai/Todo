@@ -27,6 +27,7 @@ function authentication(req, res, next) {
             }
             let payload = null;
             try {
+                //get the payload where id was passed
                 payload = jsonwebtoken_1.default.verify(token, env_1.default.secretKey);
             }
             catch (error) {

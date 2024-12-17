@@ -7,6 +7,7 @@ interface appState {
   categories: ICategory[];
 }
 
+//types of action that can come
 type Action =
   | { type: "set_tasks"; payload: ITask[] }
   | { type: "set_category"; payload: ICategory[] }

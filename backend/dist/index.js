@@ -12,6 +12,7 @@ const db_1 = __importDefault(require("./config/db"));
 const cors_1 = __importDefault(require("cors"));
 const env_1 = __importDefault(require("./config/env"));
 const app = (0, express_1.default)();
+//middleware
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -23,7 +24,7 @@ app.use((0, cors_1.default)({
 app.use("/api/", userRoutes_1.default);
 app.use("/api/", taskRoutes_1.default);
 app.use("/api/", categoriesRoutes_1.default);
-//server
+//start server
 app.listen(env_1.default.port, () => {
     console.log(`app listening on port ${env_1.default.port}`);
     (0, db_1.default)();

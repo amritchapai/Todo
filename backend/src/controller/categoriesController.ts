@@ -4,11 +4,14 @@ import Category, { ICategory } from "../model/categoriesModel";
 import User, { IUser } from "../model/userModel";
 import Task from "../model/taskModel";
 
+
+//adding category
 export async function addCategory(req: Request, res: Response): Promise<void> {
   try {
     const ownerId: mongoose.Types.ObjectId = req.id;
     const { category } = req.body;
 
+    //if category doesnt have name
     if (!category) {
       res.status(400).json({
         message: "Category name is required",
@@ -121,6 +124,8 @@ export async function getAllCategory(
 ): Promise<void> {
   try {
     const ownerId: mongoose.Types.ObjectId = req.id;
+
+    //send all category with the tasks
     const allCategory: ICategory[] = await Category.find({
       owner: ownerId,
     }).populate({

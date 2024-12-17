@@ -26,6 +26,7 @@ export async function addUser(req: Request, res: Response): Promise<void> {
       });
       return;
     }
+    //check if already have account
     const findUser: IUser | null = await User.findOne({ email });
     if (findUser) {
       res.status(409).json({
@@ -75,6 +76,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       });
       return;
     }
+    //compare passwords
     const passwordMatch: boolean = await bcrypt.compare(
       password,
       loginUser.password
@@ -89,6 +91,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
     const payload: IPayload = {
       id: loginUser._id as mongoose.Types.ObjectId,
     };
+    //generate the token
     const token = jwt.sign(payload, envVariables.secretKey, {
       expiresIn: "7d",
     });
@@ -98,7 +101,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       name: loginUser.name,
       email: loginUser.email,
     };
-
+    //put token in cookie and then pass the cookie
     res
       .cookie("token", token, {
         httpOnly: true,
@@ -121,6 +124,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
 
 export async function logoutUser (req: Request, res: Response): Promise<void>{
   try {
+    //remove the token from cookie
     res.cookie("token", "", {maxAge:0}).json({
       message: "Logout successful",
       success: true

@@ -26,6 +26,7 @@ function addTask(req, res) {
             const ownerId = req.id;
             const categoryId = new mongoose_1.default.Types.ObjectId(req.params.categoryId);
             const { title, description, deadline, priority, } = req.body;
+            //description is required so check for that
             if (!description) {
                 res.status(400).json({
                     message: "Description is required",
@@ -33,14 +34,16 @@ function addTask(req, res) {
                 });
                 return;
             }
+            //create task hten
             const task = yield taskModel_1.default.create({
                 owner: ownerId,
                 title,
                 description,
                 deadline,
                 priority,
-                category: categoryId
+                category: categoryId,
             });
+            //add the task in corresponding category
             const category = yield categoriesModel_1.default.findByIdAndUpdate(categoryId, {
                 $push: {
                     tasks: task._id,
@@ -80,6 +83,7 @@ function editTask(req, res) {
                 });
                 return;
             }
+            //check whether task exits or not
             const task = yield taskModel_1.default.findById(taskId);
             if (!task) {
                 res.status(404).json({
@@ -88,6 +92,7 @@ function editTask(req, res) {
                 });
                 return;
             }
+            //if exists update it and pass
             const updatedtask = yield taskModel_1.default.findByIdAndUpdate(taskId, {
                 $set: {
                     title: title,
@@ -99,7 +104,7 @@ function editTask(req, res) {
             res.status(202).json({
                 message: "Update successful",
                 success: true,
-                data: updatedtask
+                data: updatedtask,
             });
         }
         catch (error) {
@@ -116,6 +121,7 @@ function deleteTask(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const taskId = new mongoose_1.default.Types.ObjectId(req.params.taskid);
+            //if task delete that task
             const taskToDelete = yield taskModel_1.default.findByIdAndDelete(taskId);
             if (!taskToDelete) {
                 res.status(404).json({
@@ -124,6 +130,7 @@ function deleteTask(req, res) {
                 });
                 return;
             }
+            //if exists find the category and delete task in that category
             const category = yield categoriesModel_1.default.findByIdAndUpdate(taskToDelete.category, {
                 $pull: {
                     tasks: taskToDelete._id,
@@ -150,6 +157,7 @@ function deleteTask(req, res) {
         }
     });
 }
+//mark complete the task
 function markCompleteTask(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -170,7 +178,7 @@ function markCompleteTask(req, res) {
             res.status(202).json({
                 message: "Marked Complete",
                 success: true,
-                data: taskMark
+                data: taskMark,
             });
         }
         catch (error) {
@@ -182,6 +190,7 @@ function markCompleteTask(req, res) {
         }
     });
 }
+//fetch all task
 function getAlltasks(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -190,7 +199,7 @@ function getAlltasks(req, res) {
             res.status(200).json({
                 message: "all task successful",
                 data: allTasks,
-                success: true
+                success: true,
             });
         }
         catch (error) {

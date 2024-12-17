@@ -19,11 +19,13 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const categoriesModel_1 = __importDefault(require("../model/categoriesModel"));
 const userModel_1 = __importDefault(require("../model/userModel"));
 const taskModel_1 = __importDefault(require("../model/taskModel"));
+//adding category
 function addCategory(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const ownerId = req.id;
             const { category } = req.body;
+            //if category doesnt have name
             if (!category) {
                 res.status(400).json({
                     message: "Category name is required",
@@ -118,6 +120,7 @@ function getAllCategory(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const ownerId = req.id;
+            //send all category with the tasks
             const allCategory = yield categoriesModel_1.default.find({
                 owner: ownerId,
             }).populate({

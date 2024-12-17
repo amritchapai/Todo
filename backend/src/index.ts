@@ -9,6 +9,7 @@ import envVariables from "./config/env";
 
 const app = express();
 
+//middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +25,7 @@ app.use("/api/", taskRouter);
 app.use("/api/", categoryRouter);
 
 
-//server
+//start server
 app.listen(envVariables.port, () => {
   console.log(`app listening on port ${envVariables.port}`);
   dbConnect();
