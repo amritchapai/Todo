@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import "./styles/taskdetail.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { AppContext } from "../Context/appContext";
@@ -22,7 +22,7 @@ const TaskDetail: React.FC = () => {
     Low: "green",
   };
   const context = useContext(AppContext);
-
+  const navigate = useNavigate();
   const location = useLocation();
 
   const outsideClick = useRef<HTMLDivElement | null>(null);
@@ -94,6 +94,37 @@ const TaskDetail: React.FC = () => {
       }
     }
   };
+   const editHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
+      e.stopPropagation();
+      navigate(`/edittask/${task._id}`);
+    };
+  
+    const deleteTaskHandler = async (
+      e: React.MouseEvent<HTMLDivElement>
+    ): Promise<void> => {
+      e.stopPropagation();
+      try {
+        const response = await axios.post(
+          `http://localhost:8080/api/deletetask/${task._id}`,{},{
+            withCredentials: true
+          }
+        );
+        console.log(task._id);
+        if (response.data.success) {
+          console.log(response.data.message)
+          toast.success(response.data.message);
+          context?.dispatch({ type: "delete_task", payload: task._id });
+        }
+      } catch (error) {
+        console.log(error)
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data.message);
+        } else {
+          toast.error("Unexpected error Occured");
+          console.log(error);
+        }
+      }
+    };
 
   return (
     <div className={`detail-container ${colors[task.priority]}`}>
@@ -106,11 +137,11 @@ const TaskDetail: React.FC = () => {
             </div>
             {openOptions && (
               <div className="detail-options" ref={outsideClick}>
-                <div className="detail-edit-div">
+                <div className="detail-edit-div" onClick={editHandler}>
                   <FaEdit size={20} />
                   <span className="detail-delete">Edit</span>
                 </div>
-                <div className="detail-delete-div">
+                <div className="detail-delete-div" onClick={deleteTaskHandler}>
                   <MdDeleteForever size={20} />
                   <span className="detail-delete">Delete</span>
                 </div>
