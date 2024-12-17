@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
   return (
     <div>
       <div className="navbar-container">
-        <strong>ToDO WebApp</strong>
+        <strong>ToDo WebApp</strong>
         <div>
           <Button text="Logout" handler={logoutHandler} />
         </div>

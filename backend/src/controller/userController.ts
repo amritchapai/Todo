@@ -1,4 +1,3 @@
-
 import { Request, Response } from "express";
 import User, { IUser } from "../model/userModel";
 import bcrypt from "bcrypt";
@@ -96,7 +95,6 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       expiresIn: "7d",
     });
 
-
     const passUser: IPassUser = {
       name: loginUser.name,
       email: loginUser.email,
@@ -105,7 +103,8 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
     res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
@@ -114,7 +113,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
         passUser,
       });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       message: "Log in failed",
       success: false,
@@ -122,13 +121,13 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
   }
 }
 
-export async function logoutUser (req: Request, res: Response): Promise<void>{
+export async function logoutUser(req: Request, res: Response): Promise<void> {
   try {
     //remove the token from cookie
-    res.cookie("token", "", {maxAge:0}).json({
+    res.cookie("token", "", { maxAge: 0 }).json({
       message: "Logout successful",
-      success: true
-    })
+      success: true,
+    });
     return;
   } catch (error) {
     console.log(error);
