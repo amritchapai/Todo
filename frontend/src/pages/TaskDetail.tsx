@@ -74,7 +74,7 @@ const TaskDetail: React.FC = () => {
     try {
       console.log(task._id);
       const response = await axios.post(
-        `http://localhost:8080/api/markcomplete/${task._id}`,
+        `https://todo-s0jh.onrender.com/api/markcomplete/${task._id}`,
         {},
         {
           withCredentials: true,
@@ -94,37 +94,39 @@ const TaskDetail: React.FC = () => {
       }
     }
   };
-   const editHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
-      e.stopPropagation();
-      navigate(`/edittask/${task._id}`);
-    };
-  
-    const deleteTaskHandler = async (
-      e: React.MouseEvent<HTMLDivElement>
-    ): Promise<void> => {
-      e.stopPropagation();
-      try {
-        const response = await axios.post(
-          `http://localhost:8080/api/deletetask/${task._id}`,{},{
-            withCredentials: true
-          }
-        );
-        console.log(task._id);
-        if (response.data.success) {
-          console.log(response.data.message)
-          toast.success(response.data.message);
-          context?.dispatch({ type: "delete_task", payload: task._id });
+  const editHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
+    e.stopPropagation();
+    navigate(`/edittask/${task._id}`);
+  };
+
+  const deleteTaskHandler = async (
+    e: React.MouseEvent<HTMLDivElement>
+  ): Promise<void> => {
+    e.stopPropagation();
+    try {
+      const response = await axios.post(
+        `https://todo-s0jh.onrender.com/api/deletetask/${task._id}`,
+        {},
+        {
+          withCredentials: true,
         }
-      } catch (error) {
-        console.log(error)
-        if (error instanceof AxiosError) {
-          toast.error(error.response?.data.message);
-        } else {
-          toast.error("Unexpected error Occured");
-          console.log(error);
-        }
+      );
+      console.log(task._id);
+      if (response.data.success) {
+        console.log(response.data.message);
+        toast.success(response.data.message);
+        context?.dispatch({ type: "delete_task", payload: task._id });
       }
-    };
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("Unexpected error Occured");
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <div className={`detail-container ${colors[task.priority]}`}>

@@ -58,7 +58,7 @@ const EditTask: React.FC = () => {
   const editTaskHandler = async (): Promise<void> => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/edittask/${task?._id}`,
+        `https://todo-s0jh.onrender.com/api/edittask/${task?._id}`,
         taskDetail,
         {
           headers: {

@@ -25,7 +25,7 @@ const Registration: React.FC = () => {
     try {
       // console.log(user);
       const response = await axios.post(
-        "http://localhost:8080/api/signup",
+        "https://todo-s0jh.onrender.com/api/signup",
         user,
         {
           headers: {

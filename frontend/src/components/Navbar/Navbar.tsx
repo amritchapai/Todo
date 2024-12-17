@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await axios.get(
-        "http://localhost:8080/api/getallcategory",
+        "https://todo-s0jh.onrender.com/api/getallcategory",
         {
           withCredentials: true,
         }
@@ -31,9 +31,12 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const fetchTask = async () => {
       console.log("fetching task");
-      const response = await axios.get("http://localhost:8080/api/getalltask", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://todo-s0jh.onrender.com/api/getalltask",
+        {
+          withCredentials: true,
+        }
+      );
       console.log(response.data.data);
       if (response.data.success) {
         context?.dispatch({ type: "set_tasks", payload: response.data.data });
@@ -46,7 +49,7 @@ const Navbar: React.FC = () => {
   const logoutHandler = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/logout",
+        "https://todo-s0jh.onrender.com/api/logout",
         {},
         {
           withCredentials: true,

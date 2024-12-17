@@ -42,7 +42,7 @@ const Sidebar: React.FC = () => {
     console.log(category);
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/addCategory",
+        "https://todo-s0jh.onrender.com/api/addCategory",
         { category },
         {
           headers: {
@@ -69,11 +69,9 @@ const Sidebar: React.FC = () => {
   };
 
   const addCategoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
-    if(e.target.value.length > 18){
+    if (e.target.value.length > 18) {
       toast.error("Category name should be short");
-    }
-    else{
+    } else {
       setCategory(e.target.value);
     }
     console.log(e.target.value);

@@ -49,7 +49,7 @@ const AddTask: React.FC = () => {
     console.log(taskDetail);
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/addtask/${categoryId}`,
+        `https://todo-s0jh.onrender.com/api/addtask/${categoryId}`,
         taskDetail,
         {
           headers: {

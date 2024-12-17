@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./task.css";
 import { useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -40,27 +40,33 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
     setOpenOptions(true);
   };
 
-  const markCompleted = async(e: React.MouseEvent<SVGElement>):Promise<void>=>{
+  const markCompleted = async (
+    e: React.MouseEvent<SVGElement>
+  ): Promise<void> => {
     e.stopPropagation();
     try {
       console.log(task._id);
       const response = await axios.post(
-        `http://localhost:8080/api/markcomplete/${task._id}`,{},{
-          withCredentials: true
+        `https://todo-s0jh.onrender.com/api/markcomplete/${task._id}`,
+        {},
+        {
+          withCredentials: true,
         }
       );
-      if(response.data.success){
-        context?.dispatch({type: "markTaskCompelete", payload: response.data.data});
+      if (response.data.success) {
+        context?.dispatch({
+          type: "markTaskCompelete",
+          payload: response.data.data,
+        });
       }
     } catch (error) {
-      if(error instanceof AxiosError){
-        toast.error(error.response?.data.message)
-      }
-      else{
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
         toast.error("Unexpected Error Occurred");
       }
     }
-  }
+  };
 
   const editHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
@@ -73,18 +79,20 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
     e.stopPropagation();
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/deletetask/${task._id}`,{},{
-          withCredentials: true
+        `https://todo-s0jh.onrender.com/api/deletetask/${task._id}`,
+        {},
+        {
+          withCredentials: true,
         }
       );
       console.log(task._id);
       if (response.data.success) {
-        console.log(response.data.message)
+        console.log(response.data.message);
         toast.success(response.data.message);
         context?.dispatch({ type: "delete_task", payload: task._id });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
       } else {
@@ -144,7 +152,11 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
         </div>
       </div>
       <hr />
-      <textarea className="task-body" defaultValue={task.description} readOnly></textarea>
+      <textarea
+        className="task-body"
+        defaultValue={task.description}
+        readOnly
+      ></textarea>
     </div>
   );
 };
