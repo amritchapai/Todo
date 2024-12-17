@@ -77,3 +77,13 @@
      color:red;
      font-size: 18px;
 }
+
+.task-container textarea{
+      background-color: transparent;
+     border: none;
+     width: 100%;
+}
+
+.task-container textarea{
+      outline: none;
+}

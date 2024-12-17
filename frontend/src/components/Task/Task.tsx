@@ -144,7 +144,7 @@ const Task: React.FC<taskProps> = ({ color, task, category }) => {
         </div>
       </div>
       <hr />
-      <div className="task-body">{task.description}</div>
+      <textarea className="task-body" defaultValue={task.description} readOnly></textarea>
     </div>
   );
 };

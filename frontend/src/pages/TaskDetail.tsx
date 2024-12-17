@@ -163,7 +163,7 @@ const TaskDetail: React.FC = () => {
         </div>
       </div>
       <hr />
-      <div className="detail-body">{task.description}</div>
+      <textarea defaultValue={task.description} readOnly></textarea>
     </div>
   );
 };

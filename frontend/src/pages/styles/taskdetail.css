@@ -76,3 +76,13 @@
      color:red;
      font-size: 18px;
 }
+
+.detail-container textarea{
+     background-color: transparent;
+     border: none;
+     width: 100%;
+}
+
+.detail-container textarea:focus{
+      outline: none;
+}
