@@ -3,7 +3,8 @@
   top: 60px;
   display: flex;
   flex-direction: column;
-  width: 20%;
+  min-width: 20%;
+  width: fit-content;
   height: calc(100vh - 60px);
   border-right: 1px solid rgb(62, 62, 62);
   overflow: visible;
