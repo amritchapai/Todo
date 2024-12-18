@@ -84,19 +84,3 @@
   background-color: #f8c46a;
 }
 
-@media (max-width: 768px) {
-  .sidebar-container {
-    position: fixed;
-    bottom: 0;
-    top: unset;
-    display: flex;
-    flex-direction: row;
-    min-width: unset;
-    height: 41px;
-    overflow-x: visible;
-  }
-
-  .sidebar-container div {
-    width: fit-content;
-  }
-}

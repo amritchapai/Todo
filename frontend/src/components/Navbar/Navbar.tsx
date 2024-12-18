@@ -6,8 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { AppContext } from "../../Context/appContext";
 import { useAuth } from "../../Context/authContext";
+import { FiMoreHorizontal } from "react-icons/fi";
 
-const Navbar: React.FC = () => {
+interface navbarProps{
+  toggle : ()=> void
+}
+
+const Navbar: React.FC<navbarProps> = ({toggle}) => {
   const { setAuthentication } = useAuth();
   const context = useContext(AppContext);
   useEffect(() => {
@@ -73,6 +78,12 @@ const Navbar: React.FC = () => {
   return (
     <div>
       <div className="navbar-container">
+        <div className="settings">
+          <FiMoreHorizontal
+            size={20}
+            onClick={toggle}
+          />
+        </div>
         <strong>ToDo WebApp</strong>
         <div>
           <Button text="Logout" handler={logoutHandler} />
