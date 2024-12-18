@@ -14,6 +14,7 @@
 @media(max-width: 769px){
   .sidebar-container{
     top: 0px;
+    background-color: white;
   }
 }
 
