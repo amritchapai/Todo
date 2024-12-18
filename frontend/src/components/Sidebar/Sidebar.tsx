@@ -8,7 +8,11 @@ import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { AppContext } from "../../Context/appContext";
 
-const Sidebar: React.FC = () => {
+interface sidebarProps{
+  toggle: ()=>void
+}
+
+const Sidebar: React.FC<sidebarProps> = ({toggle}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const mouseClickRef = useRef<HTMLDivElement | null>(null);
@@ -78,13 +82,19 @@ const Sidebar: React.FC = () => {
   };
 
   const openByCategory = (categoryId: string): void => {
+    toggle();
     navigate(`/category/${categoryId}`);
   };
+
+  const allTaskHandler= ():void=>{
+    toggle();
+    navigate("/");
+  }
 
   return (
     <div className="sidebar-container">
       <div
-        onClick={() => navigate("/")}
+        onClick={allTaskHandler}
         className={`category-card ${
           currentPath === "/" ? "all-task-color" : ""
         }`}

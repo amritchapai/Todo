@@ -11,6 +11,12 @@
   z-index: 1;
 }
 
+@media(max-width: 769px){
+  .sidebar-container{
+    top: 0px;
+  }
+}
+
 .sidebar-container::-webkit-scrollbar {
   display: none; /* Hides scrollbar in WebKit browsers */
 }
@@ -34,6 +40,8 @@
   position: relative;
   gap: 2px;
   cursor: pointer;
+  min-height: fit-content;
+  padding: 2px;
 }
 
 .sidebar-container > div {

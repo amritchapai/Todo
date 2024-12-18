@@ -35,7 +35,7 @@ const MainLayout: React.FC = () => {
       <Navbar toggle={toggleSidebar} />
       <div className="content-wrapper">
         <div className={`sidebar ${openSidebar ? "visible" : ""}`}>
-          <Sidebar />
+          <Sidebar toggle={toggleSidebar} />
         </div>
         <div className="main-content">
           <Outlet />
