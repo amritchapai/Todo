@@ -116,6 +116,7 @@ const TaskDetail: React.FC = () => {
         console.log(response.data.message);
         toast.success(response.data.message);
         context?.dispatch({ type: "delete_task", payload: task._id });
+        navigate("/");
       }
     } catch (error) {
       console.log(error);

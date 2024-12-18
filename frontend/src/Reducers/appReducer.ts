@@ -29,7 +29,6 @@ export const appReducer = (state: appState, action: Iaction): appState => {
         }),
       };
     case "edit_task":
-      console.log("we are here");
       return {
         ...state,
         task: state.task.map((task) => {
@@ -50,9 +49,16 @@ export const appReducer = (state: appState, action: Iaction): appState => {
       };
     case "delete_task":
       return {
-        ...state,
         task: state.task.filter((task) => {
           return task._id != action.payload;
+        }),
+        categories: state.categories.map((category) => {
+          return {
+            ...category,
+            tasks: category.tasks.filter((task) => {
+              return task._id != action.payload;
+            }),
+          };
         }),
       };
     case "add_category":
@@ -71,6 +77,18 @@ export const appReducer = (state: appState, action: Iaction): appState => {
         ...state,
         task: state.task.map((task) => {
           return task._id === action.payload._id ? action.payload : task;
+        }),
+        categories: state.categories.map((category) => {
+          if (category._id === action.payload.category) {
+            return {
+              ...category,
+              tasks: category.tasks.map((task) => {
+                return task._id === action.payload._id ? action.payload : task;
+              }),
+            };
+          } else {
+            return category;
+          }
         }),
       };
 
