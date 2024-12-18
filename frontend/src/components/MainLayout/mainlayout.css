@@ -28,6 +28,7 @@
 @media (max-width: 769px) {
   .sidebar.visible {
     transform: translateX(0);
+    background-color: rgb(185, 183, 183);
   }
 
   .sidebar {

@@ -42,6 +42,7 @@
   cursor: pointer;
   min-height: fit-content;
   padding: 2px;
+  box-sizing: border-box;
 }
 
 .sidebar-container > div {
