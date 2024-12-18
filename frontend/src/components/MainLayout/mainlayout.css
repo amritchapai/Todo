@@ -26,12 +26,12 @@
 }
 
 @media (max-width: 769px) {
-  .visible {
+  .sidebar.visible {
     transform: translateX(0);
   }
 
   .sidebar {
-    transform: translateX(-100%);
+    transform: translateX(-160px);
   }
 
   .main-content {
